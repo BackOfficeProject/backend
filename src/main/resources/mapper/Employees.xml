@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backoffice.backoffice.mapper.EmployeesMapper">
+
+    <insert id="save" parameterType="EmployeesDto">
+        insert into "Employees" (email, name, password, department_id, status, phone, hire_date)
+        values (#{email}, #{name}, #{password}, #{departmentId}, #{status}, #{phone}, #{hireDate})
+    </insert>
+
+    <select id="findByEmail" parameterType="String">
+        select email
+        from "Employees"
+        where email = #{email}
+    </select>
+</mapper>

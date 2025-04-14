@@ -1,4 +1,4 @@
-package com.BackOffice.BackOffice;
+package com.backoffice.backoffice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
