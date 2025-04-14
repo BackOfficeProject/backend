@@ -24,10 +24,12 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
-          set -a
-          . .env
-          set +a
-          ./gradlew clean build
+          bash -c "
+            set -a
+            . $WORKSPACE/.env
+            set +a
+            ./gradlew build
+          "
         '''
       }
     }
