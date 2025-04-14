@@ -28,7 +28,12 @@ pipeline {
 
     stage('Build') {
       steps {
-        sh './gradlew clean build'
+        sh '''
+          set -a
+          source .env
+          set +a
+          ./gradlew clean build
+        '''
       }
     }
 
@@ -38,7 +43,7 @@ pipeline {
           sh "docker stop $CONTAINER_NAME || true"
           sh "docker rm $CONTAINER_NAME || true"
           sh "docker build -t $IMAGE_NAME ."
-          sh "docker run -d --name $CONTAINER_NAME --env-file .env -p 8080:8080 $IMAGE_NAME"
+          sh "docker run -d --name $CONTAINER_NAME -p 8080:8080 $IMAGE_NAME"
         }
       }
     }
