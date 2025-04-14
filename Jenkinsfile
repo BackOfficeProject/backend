@@ -8,9 +8,16 @@ pipeline {
       }
     }
     stage('Prepare Env') {
-      steps {
-        sh 'cp /home/ubuntu/path/backoffice/.env .'
-      }
+          steps {
+            sh '''
+              if [ -f /env/.env ]; then
+                cp /env/.env .
+              else
+                echo "ERROR: .env file not found at /env/.env"
+                exit 1
+              fi
+            '''
+          }
     }
     stage('Build') {
       steps {
