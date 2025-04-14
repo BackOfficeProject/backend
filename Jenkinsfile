@@ -25,7 +25,7 @@ pipeline {
       steps {
         sh '''
           set -a
-          source .env
+          . .env
           set +a
           ./gradlew clean build
         '''
