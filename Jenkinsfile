@@ -7,21 +7,27 @@ pipeline {
         checkout scm
       }
     }
+
     stage('Prepare Env') {
-          steps {
-            sh '''
-              if [ -f /env/.env ]; then
-                cp /env/.env .
-              else
-                echo "ERROR: .env file not found at /env/.env"
-                exit 1
-              fi
-            '''
-          }
+      steps {
+        sh '''
+          if [ -f /env/.env ]; then
+            cp /env/.env .
+            export $(grep -v '^#' .env | xargs)
+          else
+            echo "ERROR: .env file not found at /env/.env"
+            exit 1
+          fi
+        '''
+      }
     }
+
     stage('Build') {
       steps {
-        sh './gradlew clean build'
+        sh '''
+          export $(grep -v '^#' .env | xargs)
+          ./gradlew clean build
+        '''
       }
     }
   }
