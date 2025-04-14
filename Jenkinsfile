@@ -8,9 +8,29 @@ pipeline {
       }
     }
 
+    stage('Prepare Env') {
+      steps {
+        sh '''
+          if [ -f /env/.env ]; then
+            cp /env/.env .
+          else
+            echo "ERROR: .env file not found at /env/.env"
+            exit 1
+          fi
+        '''
+      }
+    }
+
     stage('Build') {
       steps {
-        sh './gradlew clean build'
+        sh '''
+          bash -c "
+            set -a
+            . $WORKSPACE/.env
+            set +a
+            ./gradlew build
+          "
+        '''
       }
     }
   }
