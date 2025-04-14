@@ -13,7 +13,6 @@ pipeline {
         sh '''
           if [ -f /env/.env ]; then
             cp /env/.env .
-            export $(grep -v '^#' .env | xargs)
           else
             echo "ERROR: .env file not found at /env/.env"
             exit 1
@@ -25,7 +24,9 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
-          export $(grep -v '^#' .env | xargs)
+          set -a
+          source .env
+          set +a
           ./gradlew clean build
         '''
       }
