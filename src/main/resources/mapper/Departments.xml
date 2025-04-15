@@ -3,9 +3,37 @@
 <mapper namespace="com.backoffice.backoffice.mapper.DepartmentsMapper">
 
 
+<!--    부서 생성-->
     <insert id="departmentSave" parameterType="DepartmentsDto">
         insert into "Departments" (name)
         values (#{name})
     </insert>
+
+<!--    부서 업데이트-->
+    <update id="departmentsUpdate" parameterType="DepartmentsDto">
+        update "Departments"
+        set name = #{afterName}
+        where name = #{beforeName}
+    </update>
+
+<!--    부서 삭제-->
+    <delete id="departmentsDelete" parameterType="DepartmentsDto">
+        delete
+        from "Departments"
+        where name = #{name}
+    </delete>
+
+<!--    부서 찾기-->
+    <select id="findByDepartments" parameterType="String" resultType="DepartmentsDto">
+        select name
+        from "Departments"
+        where name = #{name}
+    </select>
+
+<!--    모든 부서 출력-->
+    <select id="findAll" resultType="DepartmentsDto">
+        select *
+        from "Departments"
+    </select>
 
 </mapper>
