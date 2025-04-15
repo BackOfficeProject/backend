@@ -42,9 +42,9 @@ public class EmployeesController {
     }
 
     //사원 찾기
-    @PostMapping("/employees/findemployees")
-    public ResponseEntity<ApiResponse<List<EmployeesDto>>> findEmployees(@RequestBody EmployeesDto employeesDto) {
-        List<EmployeesDto> result = employeesService.findEmployees(employeesDto.getId());
+    @GetMapping("/employees/findemployees")
+    public ResponseEntity<ApiResponse<List<EmployeesDto>>> findEmployees(@RequestParam("id") Integer id) {
+        List<EmployeesDto> result = employeesService.findEmployees(id);
         return ResponseEntity.ok(ApiResponse.success(result));
     }
 

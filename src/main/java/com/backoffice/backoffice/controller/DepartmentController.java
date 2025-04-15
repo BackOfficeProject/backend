@@ -40,13 +40,14 @@ public class DepartmentController {
     }
 
 //부서 찾기
-    @PostMapping("/departments/findDepartments")
-    public ResponseEntity<ApiResponse<List<DepartmentsDto>>> findByDepartments(@RequestBody DepartmentsDto departmentsDto) {
-        List<DepartmentsDto> result = departmentsService.findByDepartments(departmentsDto.getName());
-        return ResponseEntity.ok(ApiResponse.success(result));
-    }
+@GetMapping("/departments/find/departments")
+public ResponseEntity<ApiResponse<List<DepartmentsDto>>> findByDepartments(@RequestParam("name") String name) {
+    List<DepartmentsDto> result = departmentsService.findByDepartments(name);
+    return ResponseEntity.ok(ApiResponse.success(result));
+}
 
-//모든 부서 리스트 출력
+
+    //모든 부서 리스트 출력
     @GetMapping("/departments/findall")
     public ResponseEntity<ApiResponse<List<DepartmentsDto>>> findAll() {
         List<DepartmentsDto> result = departmentsService.findAll();
