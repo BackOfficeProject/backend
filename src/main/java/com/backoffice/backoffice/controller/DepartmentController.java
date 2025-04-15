@@ -26,7 +26,7 @@ public class DepartmentController {
     }
 
 //부서 업데이트
-    @PostMapping("/departments/update")
+    @PutMapping("/departments/update")
     public ResponseEntity<ApiResponse<DepartmentsDto>> departmentsUpdate(@RequestBody DepartmentsDto departmentsDto) {
         departmentsService.departmentsUpdate(departmentsDto);
         return ResponseEntity.ok(ApiResponse.success(departmentsDto));
