@@ -38,9 +38,9 @@ public class RolesController {
     }
 
     //권한 검색
-    @PostMapping("/roles/find")
-    public ResponseEntity<ApiResponse<List<RolesDto>>> findRoles(@RequestBody RolesDto rolesDto) {
-        List<RolesDto> result = rolesService.findRoles(rolesDto.getName());
+    @GetMapping("/roles/find")
+    public ResponseEntity<ApiResponse<List<RolesDto>>> findRoles(@RequestParam String name) {
+        List<RolesDto> result = rolesService.findRoles(name);
         return ResponseEntity.ok(ApiResponse.success(result));
     }
 
