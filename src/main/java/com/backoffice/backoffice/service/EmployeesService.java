@@ -1,6 +1,8 @@
 package com.backoffice.backoffice.service;
 
 import com.backoffice.backoffice.dto.EmployeesDto;
+import com.backoffice.backoffice.exception.CommonExceptionHandler;
+import com.backoffice.backoffice.exception.ErrorCode;
 import com.backoffice.backoffice.mapper.EmployeesMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class EmployeesService {
                 // 이메일이 존재하면 이미 존재하는 메일로 처리
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -38,7 +40,7 @@ public class EmployeesService {
         try {
 employeesMapper.employeesUpdate(employeesDto);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -48,7 +50,7 @@ employeesMapper.employeesUpdate(employeesDto);
         try {
 employeesMapper.employeesDelete(employeesDto);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
