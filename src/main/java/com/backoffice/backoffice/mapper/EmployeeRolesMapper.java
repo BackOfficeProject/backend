@@ -16,4 +16,8 @@ public interface EmployeeRolesMapper {
 
     //직원의 특정 역할 제거
     void removeRoleFromEmployee(Map<String, Object> params);
+
+    //직원이 가지고 있는 권한 + 부서에 포함이 되어 있으니 부서가 가지고 있는 권한도 간접적으로 받는다.
+    // 그럼으로 직원이 갖고있는 권한 + 부서에 간접적으로 포함된 권한
+    List<String> findAllRolesByEmployeeId(Integer employeeId);
 }
