@@ -37,4 +37,12 @@ public class EmployeeRolesController {
         return ResponseEntity.ok(ApiResponse.success(employeeRolesDto));
     }
 
+    //직원이 가지고 있는 권한 + 부서에 포함이 되어 있으니 부서가 가지고 있는 권한도 간접적으로 받는다.
+    // 그럼으로 직원이 갖고있는 권한 + 부서에 간접적으로 포함된 권한
+    @GetMapping("/emplrole/all")
+    public ResponseEntity<ApiResponse<List<String>>> findAllRolesByEmployeeId(@RequestParam Integer employeeId) {
+        List<String> result = employeeRolesService.findAllRolesByEmployeeId(employeeId);
+        return ResponseEntity.ok(ApiResponse.success(result));
+    }
+
 }
