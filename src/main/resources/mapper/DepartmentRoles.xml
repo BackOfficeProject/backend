@@ -5,7 +5,7 @@
 <!--    부서에 권한 추가-->
     <insert id="roleToDepartment" parameterType="DepartmentRolesDto">
         insert into "Department_roles" (department_id, role_id, assigned_at)
-        values (#{departmentId}, #{roleId}, #{assignedAt})
+        values (#{departmentId}, #{roleId}, now())
     </insert>
 <!--    부서별 권한 조회-->
     <select id="findRolesByDepartmentId" parameterType="Integer" resultType="String">
