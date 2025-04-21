@@ -3,9 +3,9 @@
 <mapper namespace="com.backoffice.backoffice.mapper.EmployeesMapper">
 
     <!--    사원 회원가입-->
-    <insert id="employeesSave" parameterType="EmployeesDto">
+    <insert id="employeesSave" parameterType="EmployeesJoinDto">
         insert into "Employees" (email, name, password, department_id, status, phone, hire_date)
-        values (#{email}, #{name}, #{password}, #{departmentId}, #{status}, #{phone}, now())
+        values (#{email}, #{name}, #{password}, #{departmentId}, #{status}, #{phone}, now()::date)
     </insert>
 
     <!--    이메일 찾기-->
@@ -16,20 +16,17 @@
     </select>
 
     <!--    사원정보 업데이트-->
-    <update id="employeesUpdate" parameterType="EmployeesDto">
+    <update id="employeesUpdate" parameterType="EmployeesUpdateDto">
         update "Employees"
-        set email         = #{email},
-            name          = #{name},
-            password      = #{password},
-            department_id = #{departmentId},
-            status        = #{status},
-            phone         = #{phone},
-            hire_date     =#{hireDate}
+        set email  = #{email},
+            name   = #{name},
+            status = #{status},
+            phone  = #{phone}
         where id = #{id}
     </update>
 
     <!--사원 삭제-->
-    <delete id="employeesDelete" parameterType="EmployeesDto">
+    <delete id="employeesDelete" parameterType="EmployeesDeleteDto">
         delete
         from "Employees"
         where id = #{id}
@@ -37,10 +34,11 @@
 
     <!--    사원 찾기-->
     <select id="findEmployees" parameterType="Integer" resultType="employeesDto">
-        select email, name, password, department_id, status, phone, hire_date
+        select id, email, name, password, department_id, status, phone, to_char(hire_date, 'YYYY-MM-DD') as hire_date
         from "Employees"
         where id = #{id}
     </select>
+
 
     <!--    사원 전체 출력-->
     <select id="findAllEmployees" resultType="EmployeesDto">

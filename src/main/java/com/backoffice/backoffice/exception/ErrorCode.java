@@ -16,8 +16,10 @@ public enum ErrorCode {
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST_NOT_FOUND", "게시글을 찾을 수 없습니다."),
 
     // 🔹 시스템 에러
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다."),
 
+    // 🔹 전화번호 관련 에러
+    INVALID_PHONE_FORMAT(HttpStatus.BAD_REQUEST, "INVALID_PHONE_FORMAT", "유효하지 않은 전화번호 형식입니다.");
 
     private final HttpStatus status;
     private final String code;
@@ -40,5 +42,4 @@ public enum ErrorCode {
     public String getMessage() {
         return message;
     }
-
 }

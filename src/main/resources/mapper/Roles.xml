@@ -3,15 +3,22 @@
 <mapper namespace="com.backoffice.backoffice.mapper.RolesMapper">
 
     <!--    권한 생성-->
-    <insert id="rolesSave" parameterType="RolesDto">
+    <insert id="rolesSave" parameterType="RolesJoinDto">
         insert into "Roles" (name)
         values (#{name})
     </insert>
     <!--    권한 조회-->
     <select id="findRoles" parameterType="String" resultType="RolesDto">
-        select name
+        select id, name
         from "Roles"
         where name = #{name}
+    </select>
+
+<!--    권한 조회-->
+    <select id="findId" parameterType="Integer" resultType="RolesDto">
+        select id, name
+        from "Roles"
+        where id = #{id}
     </select>
 
     <!--    권한 전체 조회-->
@@ -27,7 +34,7 @@
         where id = #{id}
     </update>
     <!--    권한 삭제-->
-    <delete id="rolesDelete" parameterType="RolesDto">
+    <delete id="rolesDelete" parameterType="RolesDeleteDto">
         delete
         from "Roles"
         where id = #{id}

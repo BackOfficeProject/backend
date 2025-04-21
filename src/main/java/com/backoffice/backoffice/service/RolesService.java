@@ -1,6 +1,8 @@
 package com.backoffice.backoffice.service;
 
-import com.backoffice.backoffice.dto.RolesDto;
+import com.backoffice.backoffice.dto.roles.RolesDeleteDto;
+import com.backoffice.backoffice.dto.roles.RolesDto;
+import com.backoffice.backoffice.dto.roles.RolesJoinDto;
 import com.backoffice.backoffice.exception.CommonExceptionHandler;
 import com.backoffice.backoffice.exception.ErrorCode;
 import com.backoffice.backoffice.mapper.RolesMapper;
@@ -18,9 +20,9 @@ public class RolesService {
 
     //권한 생성
     @Transactional
-    public void rolesSave(RolesDto rolesDto) {
+    public void rolesSave(RolesJoinDto rolesJoinDto) {
         try {
-            rolesMapper.rolesSave(rolesDto);
+            rolesMapper.rolesSave(rolesJoinDto);
         } catch (Exception e) {
             throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
         }
@@ -39,11 +41,11 @@ public class RolesService {
 
     //권한 삭제
     @Transactional
-    public void rolesDelete(RolesDto rolesDto) {
+    public void rolesDelete(RolesDeleteDto rolesDeleteDto) {
         try {
-        rolesMapper.rolesDelete(rolesDto);
+        rolesMapper.rolesDelete(rolesDeleteDto);
         } catch (Exception e) {
-            throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
+           e.printStackTrace();
         }
     }
 
@@ -58,4 +60,9 @@ public class RolesService {
         return rolesMapper.findAllRoles();
     }
 
+    //권한 이름 찾기
+    @Transactional
+    public RolesDto findId(Integer id) {
+        return rolesMapper.findId(id);
+    }
 }

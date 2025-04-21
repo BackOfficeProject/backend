@@ -3,19 +3,27 @@
 <mapper namespace="com.backoffice.backoffice.mapper.DepartmentRolesMapper">
 
 <!--    부서에 권한 추가-->
-    <insert id="roleToDepartment" parameterType="DepartmentRolesDto">
+    <insert id="roleToDepartment" parameterType="DepartmentRolesJoinDto">
         insert into "Department_roles" (department_id, role_id, assigned_at)
-        values (#{departmentId}, #{roleId}, now())
+        values (#{departmentId}, #{roleId}, now()::date)
     </insert>
 <!--    부서별 권한 조회-->
     <select id="findRolesByDepartmentId" parameterType="Integer" resultType="String">
-        select r.name
+        select r.id,r.name
         from "Roles" r
         inner join "Department_roles" dr on r.id = dr.role_id
         where dr.department_id = #{departmentId}
     </select>
 
-<!--    부서 권한 제거-->
+    <select id="findRolesName" parameterType="Integer" resultType="RolesDto">
+        select r.id, r.name
+        from "Roles" r
+                 inner join "Department_roles" dr on r.id = dr.role_id
+        where dr.department_id = #{departmentId}
+    </select>
+
+
+    <!--    부서 권한 제거-->
     <delete id="removeRoleFromDepartment" parameterType="map">
         delete
         from "Department_roles"
