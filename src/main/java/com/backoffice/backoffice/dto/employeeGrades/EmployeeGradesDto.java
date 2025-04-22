@@ -1,4 +1,4 @@
-package com.backoffice.backoffice.dto;
+package com.backoffice.backoffice.dto.employeeGrades;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

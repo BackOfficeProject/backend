@@ -1,4 +1,5 @@
-package com.backoffice.backoffice.dto;
+package com.backoffice.backoffice.dto.departments;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GradesDto {
+public class DepartmentsDto {
     private Integer id;
     private String name;
+
+
+
+
 }

@@ -16,7 +16,14 @@ public enum ErrorCode {
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST_NOT_FOUND", "게시글을 찾을 수 없습니다."),
 
     // 🔹 시스템 에러
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다."),
+
+    // 🔹 전화번호 관련 에러
+    INVALID_PHONE_FORMAT(HttpStatus.BAD_REQUEST, "INVALID_PHONE_FORMAT", "유효하지 않은 전화번호 형식입니다."),
+
+
+    // 🔹 직급 관련 에러
+    GRADE_ALREADY_ASSIGNED(HttpStatus.BAD_REQUEST, "GRADE_ALREADY_ASSIGNED", "이미 직급이 부여된 직원입니다. 직급을 변경하려면 기존 직급을 종료 하여 주십시오.");
 
 
     private final HttpStatus status;
@@ -40,5 +47,4 @@ public enum ErrorCode {
     public String getMessage() {
         return message;
     }
-
 }

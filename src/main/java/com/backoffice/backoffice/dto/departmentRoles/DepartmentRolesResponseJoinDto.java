@@ -1,4 +1,4 @@
-package com.backoffice.backoffice.dto;
+package com.backoffice.backoffice.dto.departmentRoles;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RolesDto {
-    private Integer id;
-    private String name;
+public class DepartmentRolesResponseJoinDto {
+
+    private String departmentId;
+    private String roleId;
 }

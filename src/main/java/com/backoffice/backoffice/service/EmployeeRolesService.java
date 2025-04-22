@@ -1,15 +1,17 @@
 package com.backoffice.backoffice.service;
 
-import com.backoffice.backoffice.dto.EmployeeRolesDto;
+import com.backoffice.backoffice.dto.employeeRoles.EmployeeRolesDto;
+import com.backoffice.backoffice.dto.employeeRoles.EmployeeRolesJoinDto;
+import com.backoffice.backoffice.dto.roles.RolesDto;
 import com.backoffice.backoffice.mapper.EmployeeRolesMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -19,11 +21,16 @@ public class EmployeeRolesService {
 
     //직원에게 권한 부여
     @Transactional
-    public void roleToEmployee(EmployeeRolesDto employeeRolesDto) {
+    public void roleToEmployee(EmployeeRolesJoinDto employeeRolesJoinDto) {
         try {
-            employeeRolesMapper.roleToEmployee(employeeRolesDto);
+            employeeRolesMapper.roleToEmployee(employeeRolesJoinDto);
+        } catch (DuplicateKeyException e) {
+            // 중복 키 예외 처리
+            System.out.println("중복된 역할이 존재합니다.");
+            throw new IllegalStateException("이미 해당 직원에게 역할이 부여되었습니다.");
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("예상치 못한 오류가 발생했습니다.");
         }
     }
     //직원에게 부여된 권한 목록 조회
@@ -50,6 +57,12 @@ public class EmployeeRolesService {
     @Transactional
     public List<String> findAllRolesByEmployeeId(Integer employeeId) {
         return employeeRolesMapper.findAllRolesByEmployeeId(employeeId);
+    }
+
+
+    @Transactional
+    public List<RolesDto> findRoleId(Integer employeeId) {
+        return employeeRolesMapper.findRoleId(employeeId);
     }
 
 

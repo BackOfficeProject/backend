@@ -1,8 +1,11 @@
 package com.backoffice.backoffice.service;
 
-import com.backoffice.backoffice.dto.DepartmentRolesDto;
+import com.backoffice.backoffice.dto.departmentRoles.DepartmentRolesDto;
+import com.backoffice.backoffice.dto.departmentRoles.DepartmentRolesJoinDto;
+import com.backoffice.backoffice.dto.roles.RolesDto;
 import com.backoffice.backoffice.mapper.DepartmentRolesMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +21,14 @@ public class DepartmentRolesService {
 
     //부서에게 권한부여
     @Transactional
-    public void roleToDepartment(DepartmentRolesDto departmentRolesDto) {
+    public void roleToDepartment(DepartmentRolesJoinDto departmentRolesJoinDto) {
         try {
-            departmentRolesMapper.roleToDepartment(departmentRolesDto);
+            departmentRolesMapper.roleToDepartment(departmentRolesJoinDto);
+        } catch (DuplicateKeyException e) {
+            // 중복 키 예외 발생 시 처리
+            throw new RuntimeException("해당 부서에 이미 역할이 할당되어 있습니다.", e);
         } catch (Exception e) {
-            e.printStackTrace();
-
+            throw new RuntimeException("예상치 못한 오류가 발생했습니다.", e);
         }
     }
 
@@ -31,6 +36,11 @@ public class DepartmentRolesService {
     @Transactional
     public List<String> findRolesByDepartmentId(Integer departmentId) {
         return departmentRolesMapper.findRolesByDepartmentId(departmentId);
+    }
+
+    @Transactional
+    public List<RolesDto> findRolesName(Integer departmentId) {
+        return departmentRolesMapper.findRolesName(departmentId);
     }
 
     //부서의 특정 역할 제거

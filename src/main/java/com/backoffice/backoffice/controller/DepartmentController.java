@@ -1,15 +1,16 @@
 package com.backoffice.backoffice.controller;
 
 import com.backoffice.backoffice.dto.ApiResponse;
-import com.backoffice.backoffice.dto.DepartmentsDto;
+import com.backoffice.backoffice.dto.departments.DepartmentsDeleteDto;
+import com.backoffice.backoffice.dto.departments.DepartmentsDto;
+import com.backoffice.backoffice.dto.departments.DepartmentsJoinDto;
+import com.backoffice.backoffice.dto.departments.DepartmentsUpdateDto;
 import com.backoffice.backoffice.service.DepartmentsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,23 +21,23 @@ public class DepartmentController {
 
 //회원가입
     @PostMapping("/departments/join")
-    public ResponseEntity<ApiResponse<DepartmentsDto>> departmentSave(@RequestBody DepartmentsDto departmentsDto) {
-        departmentsService.departmentSave(departmentsDto);
-        return ResponseEntity.ok(ApiResponse.success(departmentsDto));
+    public ResponseEntity<ApiResponse<DepartmentsJoinDto>> departmentSave(@RequestBody DepartmentsJoinDto departmentsJoinDto) {
+        departmentsService.departmentSave(departmentsJoinDto);
+        return ResponseEntity.ok(ApiResponse.success(departmentsJoinDto));
     }
 
 //부서 업데이트
     @PutMapping("/departments/update")
-    public ResponseEntity<ApiResponse<DepartmentsDto>> departmentsUpdate(@RequestBody DepartmentsDto departmentsDto) {
-        departmentsService.departmentsUpdate(departmentsDto);
-        return ResponseEntity.ok(ApiResponse.success(departmentsDto));
+    public ResponseEntity<ApiResponse<DepartmentsUpdateDto>> departmentsUpdate(@RequestBody DepartmentsUpdateDto departmentsUpdateDto) {
+        departmentsService.departmentsUpdate(departmentsUpdateDto);
+        return ResponseEntity.ok(ApiResponse.success(departmentsUpdateDto));
     }
 
 //부서 삭제
     @PostMapping("/departments/delete")
-    public ResponseEntity<ApiResponse<DepartmentsDto>> departmentsDelete(@RequestBody DepartmentsDto departmentsDto) {
-        departmentsService.departmentsDelete(departmentsDto);
-        return ResponseEntity.ok(ApiResponse.success(departmentsDto));
+    public ResponseEntity<ApiResponse<DepartmentsDeleteDto>> departmentsDelete(@RequestBody DepartmentsDeleteDto departmentsDeleteDto) {
+        departmentsService.departmentsDelete(departmentsDeleteDto);
+        return ResponseEntity.ok(ApiResponse.success(departmentsDeleteDto));
     }
 
 //부서 찾기

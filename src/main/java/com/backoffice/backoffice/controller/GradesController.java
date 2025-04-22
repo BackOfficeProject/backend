@@ -1,8 +1,8 @@
 package com.backoffice.backoffice.controller;
 
 import com.backoffice.backoffice.dto.ApiResponse;
-import com.backoffice.backoffice.dto.GradesDto;
-import com.backoffice.backoffice.dto.RolesDto;
+import com.backoffice.backoffice.dto.grades.*;
+import com.backoffice.backoffice.mapper.GradesDtoMapper;
 import com.backoffice.backoffice.service.GradesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,21 +19,24 @@ public class GradesController {
 
     //직급 생성
     @PostMapping("/grades/join")
-    public ResponseEntity<ApiResponse<GradesDto>> gradesSave(@RequestBody GradesDto gradesDto) {
-        gradesService.gradesSave(gradesDto);
-        return ResponseEntity.ok(ApiResponse.success(gradesDto));
+    public ResponseEntity<ApiResponse<GradesJoinDto>> gradesSave(@RequestBody GradesJoinDto gradesJoinDto) {
+        gradesService.gradesSave(gradesJoinDto);
+        return ResponseEntity.ok(ApiResponse.success(gradesJoinDto));
     }
     //직급 수정
     @PutMapping("/grades/update")
-    public ResponseEntity<ApiResponse<GradesDto>> rolesUpdate(@RequestBody GradesDto gradesDto) {
-        gradesService.gradesUpdate(gradesDto);
-        return ResponseEntity.ok(ApiResponse.success(gradesDto));
+    public ResponseEntity<ApiResponse<GradesUpdateDto>> rolesUpdate(@RequestBody GradesUpdateDto gradesUpdateDto) {
+        gradesService.gradesUpdate(gradesUpdateDto);
+        return ResponseEntity.ok(ApiResponse.success(gradesUpdateDto));
     }
     //직급 삭제
     @PostMapping("/grades/delete")
-    public ResponseEntity<ApiResponse<GradesDto>> rolesDelete(@RequestBody GradesDto gradesDto) {
-       gradesService.gradesDelete(gradesDto);
-        return ResponseEntity.ok(ApiResponse.success(gradesDto));
+    public ResponseEntity<ApiResponse<GradesDeleteResponseDto>> rolesDelete(@RequestBody GradesDeleteDto gradesDeleteDto) {
+        GradesDto dto = gradesService.findId(gradesDeleteDto.getId());
+       gradesService.gradesDelete(gradesDeleteDto);
+
+        GradesDeleteResponseDto responseDto = GradesDtoMapper.toResponseDto(dto, gradesService);
+        return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
     //특정 직급 하나 조회
     @GetMapping("/grades/find")

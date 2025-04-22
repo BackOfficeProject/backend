@@ -1,4 +1,4 @@
-package com.backoffice.backoffice.dto;
+package com.backoffice.backoffice.dto.employeeGrades;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeRolesDto {
+public class EmployeeGradesInsertDto {
+
     private Integer employeesId;
-    private Integer roleId;
-    private Timestamp grantedAt;
+    private Integer gradeId;
+    private String grantedReason;
+
 }

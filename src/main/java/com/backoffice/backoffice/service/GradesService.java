@@ -1,6 +1,9 @@
 package com.backoffice.backoffice.service;
 
-import com.backoffice.backoffice.dto.GradesDto;
+import com.backoffice.backoffice.dto.grades.GradesDeleteDto;
+import com.backoffice.backoffice.dto.grades.GradesDto;
+import com.backoffice.backoffice.dto.grades.GradesJoinDto;
+import com.backoffice.backoffice.dto.grades.GradesUpdateDto;
 import com.backoffice.backoffice.mapper.GradesMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,27 +19,27 @@ public class GradesService {
 
     //직급 생성
     @Transactional
-    public void gradesSave(GradesDto gradesDto) {
+    public void gradesSave(GradesJoinDto gradesJoinDto) {
         try {
-            gradesMapper.gradesSave(gradesDto);
+            gradesMapper.gradesSave(gradesJoinDto);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     //직급 수정
     @Transactional
-    public void gradesUpdate(GradesDto gradesDto) {
+    public void gradesUpdate(GradesUpdateDto gradesUpdateDto) {
         try {
-gradesMapper.gradesUpdate(gradesDto);
+gradesMapper.gradesUpdate(gradesUpdateDto);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     //직급 삭제
     @Transactional
-    public void gradesDelete(GradesDto gradesDto) {
+    public void gradesDelete(GradesDeleteDto gradesDeleteDto) {
         try {
-            gradesMapper.gradesDelete(gradesDto);
+            gradesMapper.gradesDelete(gradesDeleteDto);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,5 +53,10 @@ gradesMapper.gradesUpdate(gradesDto);
     @Transactional
     public List<GradesDto> findAllGrades() {
         return gradesMapper.findAllGrades();
+    }
+
+    @Transactional
+    public GradesDto findId(Integer id) {
+        return gradesMapper.findId(id);
     }
 }
