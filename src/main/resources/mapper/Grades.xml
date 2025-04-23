@@ -3,7 +3,7 @@
 <mapper namespace="com.backoffice.backoffice.mapper.GradesMapper">
 
     <!--    직급 생성-->
-    <insert id="gradesSave" parameterType="GradesJoinDto">
+    <insert id="gradesSave" parameterType="GradesRegisterRequest">
         insert into "Grades" (name)
         values (#{name})
     </insert>
@@ -19,13 +19,13 @@
         from "Grades"
     </select>
     <!--    직급 수정-->
-    <update id="gradesUpdate" parameterType="GradesUpdateDto">
+    <update id="gradesUpdate" parameterType="GradesUpdateRequest">
         update "Grades"
         set name = #{name}
         where id = #{id}
     </update>
     <!--    직급 삭제-->
-    <delete id="gradesDelete" parameterType="GradesDeleteDto">
+    <delete id="gradesDelete" parameterType="GradesDeleteRequest">
         delete
         from "Grades"
         where id = #{id}

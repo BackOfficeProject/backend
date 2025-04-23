@@ -4,20 +4,20 @@
 
 
 <!--    부서 생성-->
-    <insert id="departmentSave" parameterType="DepartmentsJoinDto">
+    <insert id="departmentSave" parameterType="DepartmentsRegisterRequest">
         insert into "Departments" (name)
         values (#{name})
     </insert>
 
 <!--    부서 업데이트-->
-    <update id="departmentsUpdate" parameterType="DepartmentsUpdateDto">
+    <update id="departmentsUpdate" parameterType="DepartmentsUpdateRequest">
         update "Departments"
         set name = #{afterName}
         where name = #{beforeName}
     </update>
 
 <!--    부서 삭제-->
-    <delete id="departmentsDelete" parameterType="DepartmentsDeleteDto">
+    <delete id="departmentsDelete" parameterType="DepartmentsDeleteRequest">
         delete
         from "Departments"
         where name = #{name}

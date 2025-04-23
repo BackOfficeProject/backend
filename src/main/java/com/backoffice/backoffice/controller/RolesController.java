@@ -1,11 +1,10 @@
 package com.backoffice.backoffice.controller;
 
 import com.backoffice.backoffice.dto.ApiResponse;
-import com.backoffice.backoffice.dto.roles.RolesDeleteDto;
-import com.backoffice.backoffice.dto.roles.RolesDeleteResponseDto;
+import com.backoffice.backoffice.dto.roles.requestDto.RolesDeleteRequest;
+import com.backoffice.backoffice.dto.roles.responseDto.RolesDeleteResponseDto;
 import com.backoffice.backoffice.dto.roles.RolesDto;
-import com.backoffice.backoffice.dto.roles.RolesJoinDto;
-import com.backoffice.backoffice.mapper.dtoMapper.RolesDtoMapper;
+import com.backoffice.backoffice.dto.roles.requestDto.RolesRegisterRequest;
 import com.backoffice.backoffice.service.RolesService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +23,9 @@ public class RolesController {
     //권한 생성
     @Operation(summary = "권한 생성", description = "권한을 생성합니다.")
     @PostMapping
-    public ResponseEntity<ApiResponse<RolesJoinDto>> rolesSave(@RequestBody RolesJoinDto rolesJoinDto) {
-        rolesService.rolesSave(rolesJoinDto);
-        return ResponseEntity.ok(ApiResponse.success(rolesJoinDto));
+    public ResponseEntity<ApiResponse<RolesRegisterRequest>> rolesSave(@RequestBody RolesRegisterRequest rolesRegisterRequest) {
+        rolesService.rolesSave(rolesRegisterRequest);
+        return ResponseEntity.ok(ApiResponse.success(rolesRegisterRequest));
     }
 
     //권한 업데이트
@@ -41,7 +40,7 @@ public class RolesController {
     @Operation(summary = "권한 삭제", description = "권한을 삭제합니다.")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<RolesDeleteResponseDto>> rolesDelete(@PathVariable Integer id) {
-        RolesDeleteResponseDto responseDto = rolesService.rolesDelete(new RolesDeleteDto(id));
+        RolesDeleteResponseDto responseDto = rolesService.rolesDelete(new RolesDeleteRequest(id));
         return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
 

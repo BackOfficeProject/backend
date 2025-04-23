@@ -3,7 +3,7 @@
 <mapper namespace="com.backoffice.backoffice.mapper.EmployeeRolesMapper">
 
     <!--    직원에게 권한 부여-->
-    <insert id="roleToEmployee" parameterType="EmployeeRolesJoinDto">
+    <insert id="roleToEmployee" parameterType="EmployeeRolesRegisterRequest">
         insert into "Employee_roles" (employee_id, role_id, granted_at)
         values (#{employeesId}, #{roleId}, now()::date)
     </insert>

@@ -1,7 +1,6 @@
 package com.backoffice.backoffice.mapper;
 
-import com.backoffice.backoffice.dto.employeeRoles.EmployeeRolesDto;
-import com.backoffice.backoffice.dto.employeeRoles.EmployeeRolesJoinDto;
+import com.backoffice.backoffice.dto.employeeRoles.requestDto.EmployeeRolesRegisterRequest;
 import com.backoffice.backoffice.dto.roles.RolesDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,7 +10,7 @@ import java.util.Map;
 @Mapper
 public interface EmployeeRolesMapper {
     //직원에게 권한 부여
-    void roleToEmployee(EmployeeRolesJoinDto employeeRolesJoinDto);
+    void roleToEmployee(EmployeeRolesRegisterRequest employeeRolesRegisterRequest);
 
     //직원에게 부여된 권한 목록 조회
     List<String> findRolesByEmployeeId(Integer employeeId);

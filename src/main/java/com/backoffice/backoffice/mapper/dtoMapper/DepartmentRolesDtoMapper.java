@@ -1,27 +1,23 @@
 package com.backoffice.backoffice.mapper.dtoMapper;
 
-import com.backoffice.backoffice.dto.departmentRoles.*;
-import com.backoffice.backoffice.dto.departments.DepartmentsDto;
-import com.backoffice.backoffice.dto.roles.RolesDto;
-import com.backoffice.backoffice.service.DepartmentRolesService;
-import com.backoffice.backoffice.service.DepartmentsService;
-
-import java.util.List;
+import com.backoffice.backoffice.dto.departmentRoles.responseDto.DepartmentRoleFindResponse;
+import com.backoffice.backoffice.dto.departmentRoles.responseDto.DepartmentRoleDeleteResponse;
+import com.backoffice.backoffice.dto.departmentRoles.responseDto.DepartmentRoleJoinResponse;
 
 public class DepartmentRolesDtoMapper {
 
-    public static DepartmentRolesResponseJoinDto toResponseJoinDto(String departmentName, String roleName) {
-        return new DepartmentRolesResponseJoinDto(departmentName, roleName);
+    public static DepartmentRoleJoinResponse toResponseJoinDto(String departmentName, String roleName) {
+        return new DepartmentRoleJoinResponse(departmentName, roleName);
     }
 
 
-    public static DepartmentRolesResponseDeleteDto toResponseDto(String departmentName, String roleName) {
-        return new DepartmentRolesResponseDeleteDto(departmentName, roleName);
+    public static DepartmentRoleDeleteResponse toResponseDto(String departmentName, String roleName) {
+        return new DepartmentRoleDeleteResponse(departmentName, roleName);
     }
 
 
 
-    public static DepartmentRolesFindResponseDto toResponseDto(String roleName) {
-        return new DepartmentRolesFindResponseDto(roleName);
+    public static DepartmentRoleFindResponse toResponseDto(String roleName) {
+        return new DepartmentRoleFindResponse(roleName);
     }
 }

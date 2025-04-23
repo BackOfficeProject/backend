@@ -1,9 +1,12 @@
 package com.backoffice.backoffice.controller;
 
 import com.backoffice.backoffice.dto.ApiResponse;
-import com.backoffice.backoffice.dto.employees.*;
-import com.backoffice.backoffice.mapper.dtoMapper.EmployeesDtoMapper;
-import com.backoffice.backoffice.service.DepartmentsService;
+import com.backoffice.backoffice.dto.employees.requestDto.EmployeesDeleteRequest;
+import com.backoffice.backoffice.dto.employees.requestDto.EmployeesFindRequest;
+import com.backoffice.backoffice.dto.employees.requestDto.EmployeesRegisterRequest;
+import com.backoffice.backoffice.dto.employees.requestDto.EmployeesUpdateRequest;
+import com.backoffice.backoffice.dto.employees.responseDto.EmployeesRegisterResponse;
+import com.backoffice.backoffice.dto.employees.responseDto.EmployeesUpdateResponse;
 import com.backoffice.backoffice.service.EmployeesService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +25,9 @@ public class EmployeesController {
     //사원 회원가입
     @Operation(summary = "직원계정 생성", description = "직원 계정을 생성합니다.")
     @PostMapping
-    public ResponseEntity<ApiResponse<EmployeesJoinResponseDto>> employeesSave(@RequestBody EmployeesJoinDto employeesJoinDto) {
+    public ResponseEntity<ApiResponse<EmployeesRegisterResponse>> employeesSave(@RequestBody EmployeesRegisterRequest employeesRegisterRequest) {
         // 직원 저장 및 응답 DTO 생성
-        EmployeesJoinResponseDto responseDto = employeesService.employeesSave(employeesJoinDto);
+        EmployeesRegisterResponse responseDto = employeesService.employeesSave(employeesRegisterRequest);
 
         // 응답 반환
         return ResponseEntity.ok(ApiResponse.success(responseDto));
@@ -33,9 +36,9 @@ public class EmployeesController {
     //사원 정보 업데이트
     @Operation(summary = "직원 정보 업데이트", description = "직원 정보를 업데이트 합니다.")
     @PutMapping
-    public ResponseEntity<ApiResponse<EmployeesUpdateResponseDto>> employeesUpdate(@RequestBody EmployeesUpdateDto employeesUpdateDto) {
+    public ResponseEntity<ApiResponse<EmployeesUpdateResponse>> employeesUpdate(@RequestBody EmployeesUpdateRequest employeesUpdateRequest) {
 
-        EmployeesUpdateResponseDto responseDto = employeesService.employeesUpdate(employeesUpdateDto);
+        EmployeesUpdateResponse responseDto = employeesService.employeesUpdate(employeesUpdateRequest);
 
         return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
@@ -43,8 +46,8 @@ public class EmployeesController {
     //사원 삭제
     @Operation(summary = "직원 계정 삭제", description = "직원의 계정을 삭제합니다.")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<EmployeesDeleteDto>> deleteEmployee(@PathVariable Integer id) {
-        EmployeesDeleteDto responseDto = employeesService.employeesDelete(new EmployeesDeleteDto(id));
+    public ResponseEntity<ApiResponse<EmployeesDeleteRequest>> deleteEmployee(@PathVariable Integer id) {
+        EmployeesDeleteRequest responseDto = employeesService.employeesDelete(new EmployeesDeleteRequest(id));
         return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
 
@@ -52,16 +55,16 @@ public class EmployeesController {
     //사원 찾기
     @GetMapping("/{id}")
     @Operation(summary = "직원 계정 검색", description = "직원의 계정을 검색합니다.")
-    public ResponseEntity<ApiResponse<List<EmployeesFindDto>>> findEmployees(@PathVariable Integer id) {
-        List<EmployeesFindDto> result = employeesService.findEmployees(id);
+    public ResponseEntity<ApiResponse<List<EmployeesFindRequest>>> findEmployees(@PathVariable Integer id) {
+        List<EmployeesFindRequest> result = employeesService.findEmployees(id);
         return ResponseEntity.ok(ApiResponse.success(result));
     }
 
     //사원 전체 출력
     @Operation(summary = "모든 직원 출력", description = "모든 직원을 출력합니다.")
     @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<EmployeesFindDto>>> findAllEmployees() {
-        List<EmployeesFindDto> result = employeesService.findAllEmployees();
+    public ResponseEntity<ApiResponse<List<EmployeesFindRequest>>> findAllEmployees() {
+        List<EmployeesFindRequest> result = employeesService.findAllEmployees();
         return ResponseEntity.ok(ApiResponse.success(result));
     }
 }

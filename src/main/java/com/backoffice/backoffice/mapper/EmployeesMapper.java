@@ -1,9 +1,9 @@
 package com.backoffice.backoffice.mapper;
 
-import com.backoffice.backoffice.dto.employees.EmployeesDeleteDto;
+import com.backoffice.backoffice.dto.employees.requestDto.EmployeesDeleteRequest;
 import com.backoffice.backoffice.dto.employees.EmployeesDto;
-import com.backoffice.backoffice.dto.employees.EmployeesJoinDto;
-import com.backoffice.backoffice.dto.employees.EmployeesUpdateDto;
+import com.backoffice.backoffice.dto.employees.requestDto.EmployeesRegisterRequest;
+import com.backoffice.backoffice.dto.employees.requestDto.EmployeesUpdateRequest;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,13 +11,13 @@ import java.util.List;
 @Mapper
 public interface EmployeesMapper {
 
-    void employeesSave(EmployeesJoinDto employeesJoinDto);
+    void employeesSave(EmployeesRegisterRequest employeesRegisterRequest);
 
     String findByEmail(String email);
 
-    void employeesUpdate(EmployeesUpdateDto employeesUpdateDto);
+    void employeesUpdate(EmployeesUpdateRequest employeesUpdateRequest);
 
-    void employeesDelete(EmployeesDeleteDto employeesDeleteDto);
+    void employeesDelete(EmployeesDeleteRequest employeesDeleteRequest);
 
     List<EmployeesDto> findEmployees(Integer id);
 

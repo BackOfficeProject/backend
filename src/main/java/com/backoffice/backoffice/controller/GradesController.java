@@ -2,7 +2,10 @@ package com.backoffice.backoffice.controller;
 
 import com.backoffice.backoffice.dto.ApiResponse;
 import com.backoffice.backoffice.dto.grades.*;
-import com.backoffice.backoffice.mapper.dtoMapper.GradesDtoMapper;
+import com.backoffice.backoffice.dto.grades.requestDto.GradesDeleteRequest;
+import com.backoffice.backoffice.dto.grades.requestDto.GradesRegisterRequest;
+import com.backoffice.backoffice.dto.grades.requestDto.GradesUpdateRequest;
+import com.backoffice.backoffice.dto.grades.responseDto.GradesDeleteResponse;
 import com.backoffice.backoffice.service.GradesService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -21,22 +24,22 @@ public class GradesController {
     //직급 생성
     @PostMapping
     @Operation(summary = "직급 생성", description = "직급을 생성합니다.")
-    public ResponseEntity<ApiResponse<GradesJoinDto>> gradesSave(@RequestBody GradesJoinDto gradesJoinDto) {
-        gradesService.gradesSave(gradesJoinDto);
-        return ResponseEntity.ok(ApiResponse.success(gradesJoinDto));
+    public ResponseEntity<ApiResponse<GradesRegisterRequest>> gradesSave(@RequestBody GradesRegisterRequest gradesRegisterRequest) {
+        gradesService.gradesSave(gradesRegisterRequest);
+        return ResponseEntity.ok(ApiResponse.success(gradesRegisterRequest));
     }
     //직급 수정
     @Operation(summary = "직급 수정", description = "직급을 수정합니다.")
     @PutMapping
-    public ResponseEntity<ApiResponse<GradesUpdateDto>> updateGrade(@RequestBody GradesUpdateDto gradesUpdateDto) {
-        gradesService.gradesUpdate(gradesUpdateDto);
-        return ResponseEntity.ok(ApiResponse.success(gradesUpdateDto));
+    public ResponseEntity<ApiResponse<GradesUpdateRequest>> updateGrade(@RequestBody GradesUpdateRequest gradesUpdateRequest) {
+        gradesService.gradesUpdate(gradesUpdateRequest);
+        return ResponseEntity.ok(ApiResponse.success(gradesUpdateRequest));
     }
     //직급 삭제
     @Operation(summary = "직급을 삭제", description = "직급을 삭제합니다.")
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<GradesDeleteResponseDto>> deleteGrade(@PathVariable Integer id) {
-        GradesDeleteResponseDto responseDto = gradesService.gradesDelete(new GradesDeleteDto(id));
+    public ResponseEntity<ApiResponse<GradesDeleteResponse>> deleteGrade(@PathVariable Integer id) {
+        GradesDeleteResponse responseDto = gradesService.gradesDelete(new GradesDeleteRequest(id));
         return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
     //특정 직급 하나 조회

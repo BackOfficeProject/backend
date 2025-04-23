@@ -1,12 +1,16 @@
 package com.backoffice.backoffice.mapper.dtoMapper;
 
-import com.backoffice.backoffice.dto.employeeGrades.*;
-import com.backoffice.backoffice.dto.employees.EmployeesDto;
+import com.backoffice.backoffice.dto.employeeGrades.requestDto.EmployeeGradesAllRequest;
+import com.backoffice.backoffice.dto.employeeGrades.requestDto.EmployeeGradesChangeRequest;
+import com.backoffice.backoffice.dto.employeeGrades.responseDto.EmployeeGradesAllResponse;
+import com.backoffice.backoffice.dto.employeeGrades.responseDto.EmployeeGradesChangeResponse;
+import com.backoffice.backoffice.dto.employeeGrades.responseDto.EmployeeGradesEndCurrentResponse;
+import com.backoffice.backoffice.dto.employeeGrades.responseDto.EmployeeGradesRegisterResponse;
 import com.backoffice.backoffice.dto.grades.GradesDto;
 
 public class EmployeeGradesDtoMapper {
-    public static EmployeeGradesInsertResponseDto toResponseDto(Integer employeesId, String gradeName, String grantedReason) {
-        return new EmployeeGradesInsertResponseDto(
+    public static EmployeeGradesRegisterResponse toResponseDto(Integer employeesId, String gradeName, String grantedReason) {
+        return new EmployeeGradesRegisterResponse(
                 employeesId,
                 gradeName,
                 grantedReason
@@ -14,22 +18,28 @@ public class EmployeeGradesDtoMapper {
     }
 
 
-    public static EmployeeGradesAllResponseDto toResponseDto(EmployeeGradesAllDto employeeGradesAllDto, GradesDto dto) {
-        return new EmployeeGradesAllResponseDto(
-                employeeGradesAllDto.getId(),
-                employeeGradesAllDto.getEmployeesId(),
+    public static EmployeeGradesAllResponse toResponseDto(EmployeeGradesAllRequest employeeGradesAllRequest, GradesDto dto) {
+        return new EmployeeGradesAllResponse(
+                employeeGradesAllRequest.getId(),
+                employeeGradesAllRequest.getEmployeesId(),
                 dto.getName(),
-                employeeGradesAllDto.getGrantedStartDate(),
-                employeeGradesAllDto.getGrantedEndDate(),
-                employeeGradesAllDto.getGrantedReason()
+                employeeGradesAllRequest.getGrantedStartDate(),
+                employeeGradesAllRequest.getGrantedEndDate(),
+                employeeGradesAllRequest.getGrantedReason()
         );
     }
 
-    public static EmployeeGradesChangeResponseDto toResponseDto(EmployeeGradesChangeDto employeeGradesChangeDto, GradesDto dto) {
-        return new EmployeeGradesChangeResponseDto(
-                employeeGradesChangeDto.getEmployeesId(),
+    public static EmployeeGradesChangeResponse toResponseDto(EmployeeGradesChangeRequest employeeGradesChangeRequest, GradesDto dto) {
+        return new EmployeeGradesChangeResponse(
+                employeeGradesChangeRequest.getEmployeesId(),
                 dto.getName(), // 이미 이름 있음
-                employeeGradesChangeDto.getGrantedReason()
+                employeeGradesChangeRequest.getGrantedReason()
+        );
+    }
+
+    public static EmployeeGradesEndCurrentResponse toResponseDto(GradesDto dto) {
+        return new EmployeeGradesEndCurrentResponse(
+                dto.getName()
         );
     }
 

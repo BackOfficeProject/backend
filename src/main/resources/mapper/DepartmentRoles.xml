@@ -3,7 +3,7 @@
 <mapper namespace="com.backoffice.backoffice.mapper.DepartmentRolesMapper">
 
 <!--    부서에 권한 추가-->
-    <insert id="roleToDepartment" parameterType="DepartmentRolesJoinDto">
+    <insert id="roleToDepartment" parameterType="DepartmentRoleJoinRequest">
         insert into "Department_roles" (department_id, role_id, assigned_at)
         values (#{departmentId}, #{roleId}, now()::date)
     </insert>

@@ -1,9 +1,9 @@
 package com.backoffice.backoffice.service;
 
-import com.backoffice.backoffice.dto.departments.DepartmentsDeleteDto;
-import com.backoffice.backoffice.dto.departments.DepartmentsDto;
-import com.backoffice.backoffice.dto.departments.DepartmentsJoinDto;
-import com.backoffice.backoffice.dto.departments.DepartmentsUpdateDto;
+import com.backoffice.backoffice.dto.departments.requestDto.DepartmentsDeleteRequest;
+import com.backoffice.backoffice.dto.departments.requestDto.DepartmentsDto;
+import com.backoffice.backoffice.dto.departments.requestDto.DepartmentsRegisterRequest;
+import com.backoffice.backoffice.dto.departments.requestDto.DepartmentsUpdateRequest;
 import com.backoffice.backoffice.exception.CommonExceptionHandler;
 import com.backoffice.backoffice.exception.ErrorCode;
 import com.backoffice.backoffice.mapper.DepartmentsMapper;
@@ -21,9 +21,9 @@ public class DepartmentsService {
 
     //부서 생성
     @Transactional
-    public void departmentSave(DepartmentsJoinDto departmentsJoinDto) {
+    public void departmentSave(DepartmentsRegisterRequest departmentsRegisterRequest) {
         try {
-            departmentsMapper.departmentSave(departmentsJoinDto);
+            departmentsMapper.departmentSave(departmentsRegisterRequest);
         } catch (Exception e) {
             throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
         }
@@ -31,20 +31,20 @@ public class DepartmentsService {
 
     //부서 업데이트
     @Transactional
-    public DepartmentsUpdateDto departmentsUpdate(DepartmentsUpdateDto departmentsUpdateDto) {
-            departmentsMapper.departmentsUpdate(departmentsUpdateDto);
-        return departmentsUpdateDto;
+    public DepartmentsUpdateRequest departmentsUpdate(DepartmentsUpdateRequest departmentsUpdateRequest) {
+            departmentsMapper.departmentsUpdate(departmentsUpdateRequest);
+        return departmentsUpdateRequest;
     }
 
     //부서 삭제
     @Transactional
-    public DepartmentsDeleteDto departmentsDelete(String name) {
+    public DepartmentsDeleteRequest departmentsDelete(String name) {
         try {
-            DepartmentsDeleteDto departmentsDeleteDto = new DepartmentsDeleteDto();
-            departmentsDeleteDto.setName(name);
-            departmentsMapper.departmentsDelete(departmentsDeleteDto);
+            DepartmentsDeleteRequest departmentsDeleteRequest = new DepartmentsDeleteRequest();
+            departmentsDeleteRequest.setName(name);
+            departmentsMapper.departmentsDelete(departmentsDeleteRequest);
 
-            return departmentsDeleteDto;
+            return departmentsDeleteRequest;
         } catch (Exception e) {
             e.printStackTrace();
             throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
