@@ -21,4 +21,6 @@ public interface DepartmentRolesMapper {
 
     //부서의 특정 역할 제거
     void removeRoleFromDepartment(Map<String, Object> params);
+
+    RolesDto findRoleNameById(Integer roleId);
 }

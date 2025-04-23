@@ -1,8 +1,9 @@
-package com.backoffice.backoffice.service;
+package com.backoffice.backoffice.util;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-@Service
+
 public class PhoneNumberService {
 
     /**
