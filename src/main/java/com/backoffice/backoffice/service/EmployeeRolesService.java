@@ -1,6 +1,8 @@
 package com.backoffice.backoffice.service;
 
-import com.backoffice.backoffice.dto.employeeRoles.*;
+import com.backoffice.backoffice.dto.employeeRoles.requestDto.EmployeeRolesRegisterRequest;
+import com.backoffice.backoffice.dto.employeeRoles.responseDto.EmployeeRolesDeleteResponse;
+import com.backoffice.backoffice.dto.employeeRoles.responseDto.EmployeeRolesRegisterResponse;
 import com.backoffice.backoffice.dto.roles.RolesDto;
 import com.backoffice.backoffice.mapper.EmployeeRolesMapper;
 import com.backoffice.backoffice.mapper.dtoMapper.EmployeeRolesDtoMapper;
@@ -23,19 +25,19 @@ public class EmployeeRolesService {
 
     //직원에게 권한 부여
     @Transactional
-    public EmployeeRolesJoinResponseDto roleToEmployee(EmployeeRolesJoinDto employeeRolesJoinDto) {
+    public EmployeeRolesRegisterResponse roleToEmployee(EmployeeRolesRegisterRequest employeeRolesRegisterRequest) {
         try {
             // 역할 부여 처리
-            employeeRolesMapper.roleToEmployee(employeeRolesJoinDto);
+            employeeRolesMapper.roleToEmployee(employeeRolesRegisterRequest);
 
             // 역할 조회
-            List<RolesDto> rolesDtoList = employeeRolesMapper.findRoleId(employeeRolesJoinDto.getEmployeesId());
+            List<RolesDto> rolesDtoList = employeeRolesMapper.findRoleId(employeeRolesRegisterRequest.getEmployeesId());
 
             // 비어 있지 않으면 첫 번째 역할을 사용, 비어 있으면 "No Role Assigned"
             String roleName = rolesDtoList.isEmpty() ? "No Role Assigned" : rolesDtoList.get(0).getName();
 
             // 응답 DTO 생성
-            return EmployeeRolesDtoMapper.toResponseDto(employeeRolesJoinDto.getEmployeesId(), roleName);
+            return EmployeeRolesDtoMapper.toResponseDto(employeeRolesRegisterRequest.getEmployeesId(), roleName);
 
         } catch (DuplicateKeyException e) {
             // 중복된 역할이 부여된 경우 예외 처리
@@ -54,7 +56,7 @@ public class EmployeeRolesService {
     }
     //직원의 특정 역할 제거
     @Transactional
-    public EmployeeRolesDeleteResponseDto removeRoleFromEmployee(Integer employeesId, Integer roleId) {
+    public EmployeeRolesDeleteResponse removeRoleFromEmployee(Integer employeesId, Integer roleId) {
         try {
             // 삭제 대상 역할 조회 (삭제 전)
             List<RolesDto> rolesBefore = employeeRolesMapper.findRoleId(employeesId);

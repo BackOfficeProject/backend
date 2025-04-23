@@ -1,21 +1,15 @@
 package com.backoffice.backoffice.mapper.dtoMapper;
 
-import com.backoffice.backoffice.dto.employeeRoles.EmployeeRolesDeleteDto;
-import com.backoffice.backoffice.dto.employeeRoles.EmployeeRolesDeleteResponseDto;
-import com.backoffice.backoffice.dto.employeeRoles.EmployeeRolesJoinDto;
-import com.backoffice.backoffice.dto.employeeRoles.EmployeeRolesJoinResponseDto;
-import com.backoffice.backoffice.dto.roles.RolesDto;
-import com.backoffice.backoffice.service.EmployeeRolesService;
-
-import java.util.List;
+import com.backoffice.backoffice.dto.employeeRoles.responseDto.EmployeeRolesDeleteResponse;
+import com.backoffice.backoffice.dto.employeeRoles.responseDto.EmployeeRolesRegisterResponse;
 
 public class EmployeeRolesDtoMapper {
 
-    public static EmployeeRolesJoinResponseDto toResponseDto(Integer employeeId, String roleName) {
-        return new EmployeeRolesJoinResponseDto(employeeId, roleName);
+    public static EmployeeRolesRegisterResponse toResponseDto(Integer employeeId, String roleName) {
+        return new EmployeeRolesRegisterResponse(employeeId, roleName);
     }
 
-    public static EmployeeRolesDeleteResponseDto toDeleteResponseDto(Integer employeeId, String roleName) {
-        return new EmployeeRolesDeleteResponseDto(employeeId,roleName);
+    public static EmployeeRolesDeleteResponse toDeleteResponseDto(Integer employeeId, String roleName) {
+        return new EmployeeRolesDeleteResponse(employeeId,roleName);
     }
 }

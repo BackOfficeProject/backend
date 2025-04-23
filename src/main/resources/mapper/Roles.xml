@@ -3,7 +3,7 @@
 <mapper namespace="com.backoffice.backoffice.mapper.RolesMapper">
 
     <!--    권한 생성-->
-    <insert id="rolesSave" parameterType="RolesJoinDto">
+    <insert id="rolesSave" parameterType="RolesRegisterRequest">
         insert into "Roles" (name)
         values (#{name})
     </insert>
@@ -34,7 +34,7 @@
         where id = #{id}
     </update>
     <!--    권한 삭제-->
-    <delete id="rolesDelete" parameterType="RolesDeleteDto">
+    <delete id="rolesDelete" parameterType="RolesDeleteRequest">
         delete
         from "Roles"
         where id = #{id}

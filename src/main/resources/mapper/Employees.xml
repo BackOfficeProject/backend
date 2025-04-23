@@ -3,7 +3,7 @@
 <mapper namespace="com.backoffice.backoffice.mapper.EmployeesMapper">
 
     <!--    사원 회원가입-->
-    <insert id="employeesSave" parameterType="EmployeesJoinDto">
+    <insert id="employeesSave" parameterType="EmployeesRegisterRequest">
         insert into "Employees" (email, name, password, department_id, status, phone, hire_date)
         values (#{email}, #{name}, #{password}, #{departmentId}, #{status}, #{phone}, now()::date)
     </insert>
@@ -16,7 +16,7 @@
     </select>
 
     <!--    사원정보 업데이트-->
-    <update id="employeesUpdate" parameterType="EmployeesUpdateDto">
+    <update id="employeesUpdate" parameterType="EmployeesUpdateRequest">
         update "Employees"
         set email  = #{email},
             name   = #{name},
@@ -26,7 +26,7 @@
     </update>
 
     <!--사원 삭제-->
-    <delete id="employeesDelete" parameterType="EmployeesDeleteDto">
+    <delete id="employeesDelete" parameterType="EmployeesDeleteRequest">
         delete
         from "Employees"
         where id = #{id}

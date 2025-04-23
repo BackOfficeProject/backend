@@ -1,9 +1,9 @@
 package com.backoffice.backoffice.mapper;
 
-import com.backoffice.backoffice.dto.grades.GradesDeleteDto;
+import com.backoffice.backoffice.dto.grades.requestDto.GradesDeleteRequest;
 import com.backoffice.backoffice.dto.grades.GradesDto;
-import com.backoffice.backoffice.dto.grades.GradesJoinDto;
-import com.backoffice.backoffice.dto.grades.GradesUpdateDto;
+import com.backoffice.backoffice.dto.grades.requestDto.GradesRegisterRequest;
+import com.backoffice.backoffice.dto.grades.requestDto.GradesUpdateRequest;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 public interface GradesMapper {
 
     //직급 생성
-    void gradesSave(GradesJoinDto gradesJoinDto);
+    void gradesSave(GradesRegisterRequest gradesRegisterRequest);
 
     //특정 직급 하나 조회
     List<GradesDto> findGrades(String name);
@@ -21,10 +21,10 @@ public interface GradesMapper {
     List<GradesDto> findAllGrades();
 
     //직급 수정
-    void gradesUpdate(GradesUpdateDto gradesUpdateDto);
+    void gradesUpdate(GradesUpdateRequest gradesUpdateRequest);
 
     //직급 삭제
-    void gradesDelete(GradesDeleteDto gradesDeleteDto);
+    void gradesDelete(GradesDeleteRequest gradesDeleteRequest);
 
     GradesDto findId(Integer id);
 

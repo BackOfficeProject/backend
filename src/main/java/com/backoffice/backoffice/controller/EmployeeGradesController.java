@@ -1,12 +1,13 @@
 package com.backoffice.backoffice.controller;
 
 import com.backoffice.backoffice.dto.ApiResponse;
-import com.backoffice.backoffice.dto.employeeGrades.*;
-import com.backoffice.backoffice.dto.grades.GradesDto;
-import com.backoffice.backoffice.mapper.dtoMapper.EmployeeGradesDtoMapper;
-import com.backoffice.backoffice.mapper.EmployeeGradesMapper;
+import com.backoffice.backoffice.dto.employeeGrades.requestDto.EmployeeGradesChangeRequest;
+import com.backoffice.backoffice.dto.employeeGrades.requestDto.EmployeeGradesRegisterRequest;
+import com.backoffice.backoffice.dto.employeeGrades.responseDto.EmployeeGradesAllResponse;
+import com.backoffice.backoffice.dto.employeeGrades.responseDto.EmployeeGradesChangeResponse;
+import com.backoffice.backoffice.dto.employeeGrades.responseDto.EmployeeGradesEndCurrentResponse;
+import com.backoffice.backoffice.dto.employeeGrades.responseDto.EmployeeGradesRegisterResponse;
 import com.backoffice.backoffice.service.EmployeeGradesService;
-import com.backoffice.backoffice.service.GradesService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,9 @@ public class EmployeeGradesController {
     //직급 부여
     @Operation(summary = "직급 생성", description = "직급을 생성합니다.")
     @PostMapping("/assign")
-    public ResponseEntity<ApiResponse<EmployeeGradesInsertResponseDto>> insertGrade(@RequestBody EmployeeGradesInsertDto employeeGradesInsertDto) {
+    public ResponseEntity<ApiResponse<EmployeeGradesRegisterResponse>> insertGrade(@RequestBody EmployeeGradesRegisterRequest employeeGradesRegisterRequest) {
         // 직급 부여 처리
-        EmployeeGradesInsertResponseDto responseDto = employeeGradesService.insertGrade(employeeGradesInsertDto);
+        EmployeeGradesRegisterResponse responseDto = employeeGradesService.insertGrade(employeeGradesRegisterRequest);
 
         return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
@@ -43,26 +44,26 @@ public class EmployeeGradesController {
 //특정 직원이 지금까지 어떤 직급을 가졌는지 전체 이력을 볼 수 있음
     @Operation(summary = "직급 이력 조회", description = "특정 직원이 지금까지 어떤 직급을 가졌는지 전체 이력을 볼 수 있습니다.")
     @GetMapping("/{employeesId}/grades/history")
-    public ResponseEntity<ApiResponse<List<EmployeeGradesAllResponseDto>>> employAllGrades(@PathVariable Integer employeesId) {
-        List<EmployeeGradesAllResponseDto> responseList = employeeGradesService.employAllGrades(employeesId);
+    public ResponseEntity<ApiResponse<List<EmployeeGradesAllResponse>>> employAllGrades(@PathVariable Integer employeesId) {
+        List<EmployeeGradesAllResponse> responseList = employeeGradesService.employAllGrades(employeesId);
         return ResponseEntity.ok(ApiResponse.success(responseList));
     }
 
     //직급 종료
     @Operation(summary = "직급 종료", description = "직급을 종료합니다.")
-    @PutMapping("/end")//
-    public ResponseEntity<ApiResponse<EmployeeGradesEndCurrentDto>> endCurrentGrade(@RequestBody EmployeeGradesEndCurrentDto employeeGradesEndCurrentDto) {
-        employeeGradesService.endCurrentGrade(employeeGradesEndCurrentDto);
-        return ResponseEntity.ok(ApiResponse.success(employeeGradesEndCurrentDto));
+    @PutMapping("/end/{employeeId}")//
+    public ResponseEntity<ApiResponse<EmployeeGradesEndCurrentResponse>> endCurrentGrade(@PathVariable Integer employeeId) {
+        EmployeeGradesEndCurrentResponse responseDto = employeeGradesService.endCurrentGrade(employeeId);
+        return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
 
 
     //직급변경
     @Operation(summary = "직급변경(승진, 강등)", description = "직원의 직급을 변경합니다.")
     @PostMapping("/change")
-    public ResponseEntity<ApiResponse<EmployeeGradesChangeResponseDto>> promoteEmployee(@RequestBody EmployeeGradesChangeDto employeeGradesChangeDto) {
+    public ResponseEntity<ApiResponse<EmployeeGradesChangeResponse>> promoteEmployee(@RequestBody EmployeeGradesChangeRequest employeeGradesChangeRequest) {
         // 서비스 계층에서 직급 변경 처리
-        EmployeeGradesChangeResponseDto responseDto = employeeGradesService.changeEmployeeGrade(employeeGradesChangeDto);
+        EmployeeGradesChangeResponse responseDto = employeeGradesService.changeEmployeeGrade(employeeGradesChangeRequest);
 
         // 응답 반환
         return ResponseEntity.ok(ApiResponse.success(responseDto));

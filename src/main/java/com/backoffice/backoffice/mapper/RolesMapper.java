@@ -1,8 +1,8 @@
 package com.backoffice.backoffice.mapper;
 
-import com.backoffice.backoffice.dto.roles.RolesDeleteDto;
+import com.backoffice.backoffice.dto.roles.requestDto.RolesDeleteRequest;
 import com.backoffice.backoffice.dto.roles.RolesDto;
-import com.backoffice.backoffice.dto.roles.RolesJoinDto;
+import com.backoffice.backoffice.dto.roles.requestDto.RolesRegisterRequest;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface RolesMapper {
 
-    void rolesSave(RolesJoinDto rolesJoinDto);
+    void rolesSave(RolesRegisterRequest rolesRegisterRequest);
 
     List<RolesDto> findRoles(String name);
 
@@ -18,7 +18,7 @@ public interface RolesMapper {
 
     void rolesUpdate(RolesDto rolesDto);
 
-    void rolesDelete(RolesDeleteDto rolesDeleteDto);
+    void rolesDelete(RolesDeleteRequest rolesDeleteRequest);
 
     RolesDto findId(Integer id);
 }

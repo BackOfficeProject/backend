@@ -1,8 +1,9 @@
 package com.backoffice.backoffice.controller;
 
 import com.backoffice.backoffice.dto.ApiResponse;
-import com.backoffice.backoffice.dto.employeeRoles.*;
-import com.backoffice.backoffice.mapper.dtoMapper.EmployeeRolesDtoMapper;
+import com.backoffice.backoffice.dto.employeeRoles.requestDto.EmployeeRolesRegisterRequest;
+import com.backoffice.backoffice.dto.employeeRoles.responseDto.EmployeeRolesDeleteResponse;
+import com.backoffice.backoffice.dto.employeeRoles.responseDto.EmployeeRolesRegisterResponse;
 import com.backoffice.backoffice.service.EmployeeRolesService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,9 @@ public class EmployeeRolesController {
     //직원에게 권한 부여
     @Operation(summary = "직원에게 권한부여", description = "직원에게 권한을 부여합니다.")
     @PostMapping("/assign")
-    public ResponseEntity<ApiResponse<EmployeeRolesJoinResponseDto>> roleToEmployee(@RequestBody EmployeeRolesJoinDto employeeRolesJoinDto) {
+    public ResponseEntity<ApiResponse<EmployeeRolesRegisterResponse>> roleToEmployee(@RequestBody EmployeeRolesRegisterRequest employeeRolesRegisterRequest) {
         // 서비스 계층에서 역할 부여 및 응답 DTO 생성 처리
-        EmployeeRolesJoinResponseDto responseDto = employeeRolesService.roleToEmployee(employeeRolesJoinDto);
+        EmployeeRolesRegisterResponse responseDto = employeeRolesService.roleToEmployee(employeeRolesRegisterRequest);
         // 응답 반환
         return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
@@ -39,11 +40,11 @@ public class EmployeeRolesController {
     //직원의 특정 역할 제거
     @Operation(summary = "직원에게 부여된 특정 권한 제거", description = "직원에게 부여된 권한을 제거 합니다.")
     @DeleteMapping("/{employeeId}/roles/{roleId}")
-    public ResponseEntity<ApiResponse<EmployeeRolesDeleteResponseDto>> removeRoleFromEmployee(
+    public ResponseEntity<ApiResponse<EmployeeRolesDeleteResponse>> removeRoleFromEmployee(
             @PathVariable Integer employeeId,
             @PathVariable Integer roleId) {
 
-        EmployeeRolesDeleteResponseDto responseDto = employeeRolesService.removeRoleFromEmployee(employeeId, roleId);
+        EmployeeRolesDeleteResponse responseDto = employeeRolesService.removeRoleFromEmployee(employeeId, roleId);
         return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
 

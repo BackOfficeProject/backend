@@ -1,6 +1,10 @@
 package com.backoffice.backoffice.service;
 
 import com.backoffice.backoffice.dto.grades.*;
+import com.backoffice.backoffice.dto.grades.requestDto.GradesDeleteRequest;
+import com.backoffice.backoffice.dto.grades.requestDto.GradesRegisterRequest;
+import com.backoffice.backoffice.dto.grades.requestDto.GradesUpdateRequest;
+import com.backoffice.backoffice.dto.grades.responseDto.GradesDeleteResponse;
 import com.backoffice.backoffice.mapper.GradesMapper;
 import com.backoffice.backoffice.mapper.dtoMapper.GradesDtoMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,29 +22,29 @@ public class GradesService {
 
     //직급 생성
     @Transactional
-    public void gradesSave(GradesJoinDto gradesJoinDto) {
+    public void gradesSave(GradesRegisterRequest gradesRegisterRequest) {
         try {
-            gradesMapper.gradesSave(gradesJoinDto);
+            gradesMapper.gradesSave(gradesRegisterRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     //직급 수정
     @Transactional
-    public void gradesUpdate(GradesUpdateDto gradesUpdateDto) {
+    public void gradesUpdate(GradesUpdateRequest gradesUpdateRequest) {
         try {
-gradesMapper.gradesUpdate(gradesUpdateDto);
+gradesMapper.gradesUpdate(gradesUpdateRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     //직급 삭제
     @Transactional
-    public GradesDeleteResponseDto gradesDelete(GradesDeleteDto gradesDeleteDto) {
+    public GradesDeleteResponse gradesDelete(GradesDeleteRequest gradesDeleteRequest) {
 
-            GradesDto dto = gradesMapper.findId(gradesDeleteDto.getId());
+            GradesDto dto = gradesMapper.findId(gradesDeleteRequest.getId());
 
-            gradesMapper.gradesDelete(gradesDeleteDto);
+            gradesMapper.gradesDelete(gradesDeleteRequest);
 
         return GradesDtoMapper.toResponseDto(dto);
     }

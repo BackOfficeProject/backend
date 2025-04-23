@@ -1,9 +1,8 @@
 package com.backoffice.backoffice.mapper;
 
-import com.backoffice.backoffice.dto.employeeGrades.EmployeeGradesAllDto;
-import com.backoffice.backoffice.dto.employeeGrades.EmployeeGradesDto;
-import com.backoffice.backoffice.dto.employeeGrades.EmployeeGradesEndCurrentDto;
-import com.backoffice.backoffice.dto.employeeGrades.EmployeeGradesInsertDto;
+import com.backoffice.backoffice.dto.employeeGrades.requestDto.EmployeeGradesAllRequest;
+import com.backoffice.backoffice.dto.employeeGrades.requestDto.EmployeeGradesRegisterRequest;
+import com.backoffice.backoffice.dto.grades.GradesDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,14 +10,16 @@ import java.util.List;
 @Mapper
 public interface EmployeeGradesMapper {
 
-    void insertGrade(EmployeeGradesInsertDto employeeGradesInsertDto);
+    void insertGrade(EmployeeGradesRegisterRequest employeeGradesRegisterRequest);
 
     List<String> currentGrades(Integer employeesId);
 
-    List<EmployeeGradesAllDto> employAllGrades(Integer employeesId);
+    List<EmployeeGradesAllRequest> employAllGrades(Integer employeesId);
 
-    void endCurrentGrade(EmployeeGradesEndCurrentDto employeeGradesEndCurrentDto);
+    void endCurrentGrade(Integer employeesId);
 
+
+    GradesDto findCurrentGradeInfo(Integer employeeId);
 
     Integer findCurrentGradeId(Integer employeeId);
 

@@ -1,9 +1,9 @@
 package com.backoffice.backoffice.service;
 
-import com.backoffice.backoffice.dto.roles.RolesDeleteDto;
-import com.backoffice.backoffice.dto.roles.RolesDeleteResponseDto;
+import com.backoffice.backoffice.dto.roles.requestDto.RolesDeleteRequest;
+import com.backoffice.backoffice.dto.roles.responseDto.RolesDeleteResponseDto;
 import com.backoffice.backoffice.dto.roles.RolesDto;
-import com.backoffice.backoffice.dto.roles.RolesJoinDto;
+import com.backoffice.backoffice.dto.roles.requestDto.RolesRegisterRequest;
 import com.backoffice.backoffice.exception.CommonExceptionHandler;
 import com.backoffice.backoffice.exception.ErrorCode;
 import com.backoffice.backoffice.mapper.RolesMapper;
@@ -21,9 +21,9 @@ public class RolesService {
 
     //권한 생성
     @Transactional
-    public void rolesSave(RolesJoinDto rolesJoinDto) {
+    public void rolesSave(RolesRegisterRequest rolesRegisterRequest) {
         try {
-            rolesMapper.rolesSave(rolesJoinDto);
+            rolesMapper.rolesSave(rolesRegisterRequest);
         } catch (Exception e) {
             throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
         }
@@ -42,10 +42,10 @@ public class RolesService {
 
     //권한 삭제
     @Transactional
-    public RolesDeleteResponseDto rolesDelete(RolesDeleteDto rolesDeleteDto) {
-        RolesDto dto = rolesMapper.findId(rolesDeleteDto.getId());
+    public RolesDeleteResponseDto rolesDelete(RolesDeleteRequest rolesDeleteRequest) {
+        RolesDto dto = rolesMapper.findId(rolesDeleteRequest.getId());
 
-        rolesMapper.rolesDelete(rolesDeleteDto);
+        rolesMapper.rolesDelete(rolesDeleteRequest);
 
         return new RolesDeleteResponseDto(
                 dto.getName()

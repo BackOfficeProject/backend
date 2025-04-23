@@ -1,15 +1,13 @@
 package com.backoffice.backoffice.service;
 
-import com.backoffice.backoffice.dto.departmentRoles.DepartmentRolesDto;
-import com.backoffice.backoffice.dto.departmentRoles.DepartmentRolesJoinDto;
-import com.backoffice.backoffice.dto.departmentRoles.DepartmentRolesResponseDeleteDto;
-import com.backoffice.backoffice.dto.departmentRoles.DepartmentRolesResponseJoinDto;
-import com.backoffice.backoffice.dto.departments.DepartmentsDto;
+import com.backoffice.backoffice.dto.departmentRoles.requestDto.DepartmentRoleJoinRequest;
+import com.backoffice.backoffice.dto.departmentRoles.responseDto.DepartmentRoleDeleteResponse;
+import com.backoffice.backoffice.dto.departmentRoles.responseDto.DepartmentRoleJoinResponse;
+import com.backoffice.backoffice.dto.departments.requestDto.DepartmentsDto;
 import com.backoffice.backoffice.dto.roles.RolesDto;
 import com.backoffice.backoffice.mapper.DepartmentRolesMapper;
 import com.backoffice.backoffice.mapper.dtoMapper.DepartmentRolesDtoMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +26,7 @@ public class DepartmentRolesService {
 
     //부서에게 권한부여
     @Transactional
-    public DepartmentRolesResponseJoinDto roleToDepartment(DepartmentRolesJoinDto dto) {
+    public DepartmentRoleJoinResponse roleToDepartment(DepartmentRoleJoinRequest dto) {
         departmentRolesMapper.roleToDepartment(dto);
 
         DepartmentsDto department = departmentsService.findName(dto.getDepartmentId());
@@ -56,7 +54,7 @@ public class DepartmentRolesService {
 
     //부서의 특정 역할 제거
     @Transactional
-    public DepartmentRolesResponseDeleteDto removeRoleFromDepartment(Integer departmentId, Integer roleId) {
+    public DepartmentRoleDeleteResponse removeRoleFromDepartment(Integer departmentId, Integer roleId) {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("departmentId", departmentId);

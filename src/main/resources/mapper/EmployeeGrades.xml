@@ -4,7 +4,7 @@
 
 
     <!--    직급 부여-->
-    <insert id="insertGrade" parameterType="EmployeeGradesInsertDto">
+    <insert id="insertGrade" parameterType="EmployeeGradesRegisterRequest">
         insert into "Employee_grades" (employee_id, grade_id, granted_start_date, granted_end_date, granted_reason)
         values (#{employeesId}, #{gradeId}, now()::date, null, #{grantedReason})
     </insert>
@@ -21,14 +21,14 @@
     <select id="findCurrentGradeId" parameterType="Integer" resultType="Integer">
         select grade_id
         from "Employee_grades"
-        where employee_id = #{employeeId}
+        where employee_id = #{employeesId}
           and granted_end_date is null;
     </select>
 
 
     <!--    직급 이력 조회-->
     <!--    특정 직원이 지금까지 어떤 직급을 가졌는지 전체 이력을 볼 수 있음-->
-    <resultMap id="EmployeeGradesResultMap" type="EmployeeGradesAllDto">
+    <resultMap id="EmployeeGradesResultMap" type="EmployeeGradesAllRequest">
         <result property="id" column="id"/>
         <result property="employeesId" column="employee_id"/> <!-- employee_id와 employeesId 매핑 -->
         <result property="gradeId" column="grade_id"/> <!-- grade_id와 gradeId 매핑 -->
@@ -47,10 +47,18 @@
     </select>
 
     <!--    직급 종료 처리-->
-    <update id="endCurrentGrade" parameterType="EmployeeGradesEndCurrentDto">
+    <update id="endCurrentGrade" parameterType="EmployeeGradesEndCurrentRequest">
         update "Employee_grades"
         set granted_end_date = now()::date
         where employee_id = #{employeesId}
           and granted_end_date is null;
     </update>
+
+    <select id="findCurrentGradeInfo" parameterType="Integer" resultType="GradesDto">
+        select g.id, g.name
+        from "Employee_grades" eg
+        join "Grades" g on eg.grade_id = g.id
+        where eg.employee_id = #{employeesId}
+        and eg.granted_end_date is null
+    </select>
 </mapper>
