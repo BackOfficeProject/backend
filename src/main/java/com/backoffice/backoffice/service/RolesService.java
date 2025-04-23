@@ -1,6 +1,7 @@
 package com.backoffice.backoffice.service;
 
 import com.backoffice.backoffice.dto.roles.RolesDeleteDto;
+import com.backoffice.backoffice.dto.roles.RolesDeleteResponseDto;
 import com.backoffice.backoffice.dto.roles.RolesDto;
 import com.backoffice.backoffice.dto.roles.RolesJoinDto;
 import com.backoffice.backoffice.exception.CommonExceptionHandler;
@@ -41,12 +42,14 @@ public class RolesService {
 
     //권한 삭제
     @Transactional
-    public void rolesDelete(RolesDeleteDto rolesDeleteDto) {
-        try {
+    public RolesDeleteResponseDto rolesDelete(RolesDeleteDto rolesDeleteDto) {
+        RolesDto dto = rolesMapper.findId(rolesDeleteDto.getId());
+
         rolesMapper.rolesDelete(rolesDeleteDto);
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
+
+        return new RolesDeleteResponseDto(
+                dto.getName()
+        );
     }
 
     //권한 조회

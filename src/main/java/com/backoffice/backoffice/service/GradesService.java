@@ -1,10 +1,8 @@
 package com.backoffice.backoffice.service;
 
-import com.backoffice.backoffice.dto.grades.GradesDeleteDto;
-import com.backoffice.backoffice.dto.grades.GradesDto;
-import com.backoffice.backoffice.dto.grades.GradesJoinDto;
-import com.backoffice.backoffice.dto.grades.GradesUpdateDto;
+import com.backoffice.backoffice.dto.grades.*;
 import com.backoffice.backoffice.mapper.GradesMapper;
+import com.backoffice.backoffice.mapper.dtoMapper.GradesDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +14,7 @@ import java.util.List;
 public class GradesService {
 
     private final GradesMapper gradesMapper;
+
 
     //직급 생성
     @Transactional
@@ -37,12 +36,13 @@ gradesMapper.gradesUpdate(gradesUpdateDto);
     }
     //직급 삭제
     @Transactional
-    public void gradesDelete(GradesDeleteDto gradesDeleteDto) {
-        try {
+    public GradesDeleteResponseDto gradesDelete(GradesDeleteDto gradesDeleteDto) {
+
+            GradesDto dto = gradesMapper.findId(gradesDeleteDto.getId());
+
             gradesMapper.gradesDelete(gradesDeleteDto);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        return GradesDtoMapper.toResponseDto(dto);
     }
     //특정 직급 하나 조회
     @Transactional

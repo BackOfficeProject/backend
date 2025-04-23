@@ -31,20 +31,22 @@ public class DepartmentsService {
 
     //부서 업데이트
     @Transactional
-    public void departmentsUpdate(DepartmentsUpdateDto departmentsUpdateDto) {
-        try {
+    public DepartmentsUpdateDto departmentsUpdate(DepartmentsUpdateDto departmentsUpdateDto) {
             departmentsMapper.departmentsUpdate(departmentsUpdateDto);
-        } catch (Exception e) {
-            throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
-        }
+        return departmentsUpdateDto;
     }
 
     //부서 삭제
     @Transactional
-    public void departmentsDelete(DepartmentsDeleteDto departmentsDeleteDto) {
+    public DepartmentsDeleteDto departmentsDelete(String name) {
         try {
+            DepartmentsDeleteDto departmentsDeleteDto = new DepartmentsDeleteDto();
+            departmentsDeleteDto.setName(name);
             departmentsMapper.departmentsDelete(departmentsDeleteDto);
+
+            return departmentsDeleteDto;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }

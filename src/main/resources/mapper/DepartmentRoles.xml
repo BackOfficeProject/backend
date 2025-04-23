@@ -22,6 +22,10 @@
         where dr.department_id = #{departmentId}
     </select>
 
+    <select id="findRoleNameById" parameterType="Integer" resultType="RolesDto">
+        SELECT id, name FROM "Roles" WHERE id = #{roleId}
+    </select>
+
 
     <!--    부서 권한 제거-->
     <delete id="removeRoleFromDepartment" parameterType="map">
