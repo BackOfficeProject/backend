@@ -1,4 +1,4 @@
-package com.backoffice.backoffice.dto.workStatus;
+package com.backoffice.backoffice.dto.workStatus.responseDto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -12,14 +12,17 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WorkStatusDto {
+public class WorkStatusCheckOutResponse {
     private Integer id;
     private Integer employeesId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp date;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private Timestamp checkInTime;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private Timestamp checkOutTime;
     private String status;
 }

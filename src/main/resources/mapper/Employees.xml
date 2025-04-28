@@ -15,6 +15,13 @@
         where email = #{email}
     </select>
 
+<!--    이메일, 패스워드찾기-->
+    <select id="findByEmailAndPassword" parameterType="employeesDto">
+        select id ,email, password, name, department_id, status, phone, hire_date
+        from "Employees"
+        where email = #{email}
+    </select>
+
     <!--    사원정보 업데이트-->
     <update id="employeesUpdate" parameterType="EmployeesUpdateRequest">
         update "Employees"

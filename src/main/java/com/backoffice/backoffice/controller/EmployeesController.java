@@ -1,14 +1,13 @@
 package com.backoffice.backoffice.controller;
 
 import com.backoffice.backoffice.dto.ApiResponse;
-import com.backoffice.backoffice.dto.employees.requestDto.EmployeesDeleteRequest;
-import com.backoffice.backoffice.dto.employees.requestDto.EmployeesFindRequest;
-import com.backoffice.backoffice.dto.employees.requestDto.EmployeesRegisterRequest;
-import com.backoffice.backoffice.dto.employees.requestDto.EmployeesUpdateRequest;
+import com.backoffice.backoffice.dto.employees.requestDto.*;
+import com.backoffice.backoffice.dto.employees.responseDto.EmployeesLoginResponse;
 import com.backoffice.backoffice.dto.employees.responseDto.EmployeesRegisterResponse;
 import com.backoffice.backoffice.dto.employees.responseDto.EmployeesUpdateResponse;
 import com.backoffice.backoffice.service.EmployeesService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +29,12 @@ public class EmployeesController {
         EmployeesRegisterResponse responseDto = employeesService.employeesSave(employeesRegisterRequest);
 
         // 응답 반환
+        return ResponseEntity.ok(ApiResponse.success(responseDto));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<EmployeesLoginResponse>> login(@RequestBody EmployeesLoginRequest employeesLoginRequest, HttpSession session) {
+        EmployeesLoginResponse responseDto = employeesService.login(employeesLoginRequest, session);
         return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
 
