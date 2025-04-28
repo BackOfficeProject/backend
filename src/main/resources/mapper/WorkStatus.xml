@@ -2,4 +2,66 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.backoffice.backoffice.mapper.WorkStatusMapper">
 
+    <!--    출근 등록-->
+    <insert id="checkIn" parameterType="Integer">
+        insert into "Work_status" (employee_id, date, check_in_time, check_out_time, status)
+        values (#{employeesId}, now()::date, now(), null, '출근')
+    </insert>
+
+    <!--오늘 출근한 기록이 있는지 체크-->
+    <select id="countTodayCheckIn" parameterType="Integer" resultType="Integer">
+        select count(*)
+        from "Work_status"
+        where employee_id = #{employeesId}
+          and date = now():: date
+    </select>
+
+    <!--    오늘 출근 기록이 있는지 조회-->
+    <select id="findTodayStatus" parameterType="Integer" resultType="WorkStatusDto">
+        select id,
+        to_char(date, 'yyyy-MM-dd HH24:MI:ss') as date,  <!-- 날짜 포맷 변경 -->
+        to_char(check_in_time, 'yyyy-MM-dd HH24:MI:ss') as checkInTime,  <!-- 출근 시간 포맷 변경 -->
+        to_char(check_out_time, 'yyyy-MM-dd HH24:MI:ss') as checkOutTime,  <!-- 퇴근 시간 포맷 변경 -->
+        status
+        from "Work_status"
+        where employee_id = #{employeesId}
+        and date = now():: date
+    </select>
+
+<!--    결근-->
+    <insert id="insertAbsent" parameterType="Integer">
+        insert into "Work_status" (employee_id, date, check_in_time, check_out_time, status)
+        select #{employeesId}, now()::date, null, null, '결근'
+        where not exists(
+        select 1
+        from "Work_status"
+        where employee_id = #{employeesId}
+            and date = now()::date
+        );
+    </insert>
+
+    <!--    지각-->
+    <update id="updateStatusToLate" parameterType="Integer">
+        update "Work_status"
+        set status = '지각'
+        where id = #{id}
+    </update>
+
+<!--    퇴근-->
+    <update id="checkOut" parameterType="Integer">
+        update "Work_status"
+        set Check_out_time = now(),
+            status = '퇴근'
+        where employee_id = #{employeesId}
+        and date = now()::date
+    </update>
+
+<!--    조퇴-->
+    <update id="checkEarlyOut" parameterType="Integer">
+        update "Work_status"
+        set check_out_time = now(),
+            status = '조퇴'
+        where employee_id = #{employeesId}
+        and date = now()::date
+    </update>
 </mapper>

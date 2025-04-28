@@ -1,8 +1,7 @@
-package com.backoffice.backoffice.dto.workStatus;
+package com.backoffice.backoffice.dto.employees.responseDto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,15 +10,15 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class WorkStatusDto {
+public class EmployeesLoginResponse {
+
     private Integer id;
-    private Integer employeesId;
+    private String email;
+    private String name;
+    private String departmentId;
+    private String status;
+    private String phone;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Timestamp date;
-
-    private Timestamp checkInTime;
-    private Timestamp checkOutTime;
-    private String status;
+    private Timestamp hireDate;
 }
