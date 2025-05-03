@@ -2,4 +2,89 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.backoffice.backoffice.mapper.VacationsMapper">
 
+
+    <!--        휴가 신청-->
+    <insert id="insertVacationRequest" parameterType="map" useGeneratedKeys="true" keyProperty="id">
+        insert into "Vacations" ("employee_id", "type", "start_date", "end_date", "reason", "status", "approved_by",
+                                 applied_at)
+        values (#{employeeId}, #{type}, #{startDate}, #{endDate}, #{reason}, '대기', #{approvedBy}, now()::date)
+    </insert>
+
+    <!--    휴가 취소-->
+    <delete id="cancelVacationRequest" parameterType="Integer">
+        delete
+        from "Vacations"
+        where id = #{id}
+          and status != '승인'
+    </delete>
+
+    <!--    휴가 승인-->
+    <update id="approveLeave" parameterType="Integer">
+        update "Vacations"
+        set status      ='승인',
+            approved_by = #{approvedBy}
+        where id = #{id}
+    </update>
+
+    <!-- 휴가 승인자 찾기 -->
+    <select id="vacationManager" parameterType="Integer" resultType="String">
+        select e.name
+        from "Employee_roles" er
+        join "Roles" r on er.role_id = r.id
+        join "Employees" e on er.employee_id = e.id
+        where r.name = '휴가승인';  <!-- role_name으로 '휴가승인' 역할을 가진 직원 찾기 -->
+    </select>
+
+    <!--    특정 기간동안 휴가를 신청했는지 여부-->
+    <select id="isEmployeeOnLeave" parameterType="VacationsApplyLeaveRequest" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM "Vacations"
+        WHERE employee_id = #{employeeId}
+          AND status = '승인'
+          AND (
+            -- 시작일이 신청된 기간에 포함되는 경우
+            (start_date BETWEEN #{startDate} AND #{endDate})
+                OR
+                -- 종료일이 신청된 기간에 포함되는 경우
+            (end_date BETWEEN #{startDate} AND #{endDate})
+                OR
+                -- 신청된 기간이 시작일과 종료일 사이에 포함되는 경우
+            (#{startDate} BETWEEN start_date AND end_date)
+                OR
+            (#{endDate} BETWEEN start_date AND end_date)
+            );
+    </select>
+
+    <!--    휴가 기록 조회-->
+    <select id="vacationRecord" parameterType="Integer" resultType="VacationsListResponse">
+        select va.id,
+               va.employee_id,
+               va.type,
+               va.start_date,
+               va.end_date,
+               va.reason,
+               va.status,
+               va.approved_by,
+               va.applied_at,
+               e.name as employeeName
+        from "Vacations" va
+                 join "Employees" e
+                      on e.id = va.employee_id
+        where va.employee_id = #{employeeId}
+        order by va.applied_at desc
+    </select>
+    <!--    휴가신청자 찾기-->
+    <select id="getVacationRequestEmployeeId" parameterType="Integer" resultType="VacationsDto">
+        select id,
+               employee_id,
+               type,
+               start_date,
+               end_date,
+               reason,
+               status,
+               approved_by,
+               applied_at
+        from "Vacations"
+        where id = #{id}
+    </select>
 </mapper>

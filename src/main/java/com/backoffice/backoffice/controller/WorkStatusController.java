@@ -8,6 +8,7 @@ import com.backoffice.backoffice.dto.workStatus.responseDto.WorkStatusInsertAbse
 import com.backoffice.backoffice.exception.ErrorCode;
 import com.backoffice.backoffice.scheduler.AbsentScheduler;
 import com.backoffice.backoffice.service.WorkStatusService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ public class WorkStatusController {
 
 
     //출근
+    @Operation(summary = "출근", description = "출근도장 쾅쾅쾅")
     @PostMapping("/check-in")
     public ResponseEntity<ApiResponse<WorkStatusCheckInResponse>> checkIn(HttpSession session) {
         Integer employeeId = (Integer) session.getAttribute("employeeId");
@@ -41,6 +43,7 @@ public class WorkStatusController {
 
 
     //퇴근
+    @Operation(summary = "퇴근", description = "퇴근도장 쾅쾅쾅")
     @PutMapping("/check-out")
     public ResponseEntity<ApiResponse<WorkStatusCheckOutResponse>> checkOut(HttpSession session) {
         Integer employeeId = (Integer) session.getAttribute("employeeId");
