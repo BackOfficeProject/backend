@@ -1,6 +1,11 @@
 pipeline {
   agent any
 
+  environment {
+    IMAGE_NAME = "backoffice-app"
+    CONTAINER_NAME = "backoffice-container"
+  }
+
   stages {
     stage('Checkout') {
       steps {
@@ -24,13 +29,24 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
-          bash -c "
-            set -a
-            . $WORKSPACE/.env
-            set +a
-            ./gradlew build
-          "
+          set -a
+          . .env
+          set +a
+          ./gradlew clean build
         '''
+      }
+    }
+
+    stage('Docker Build & Deploy') {
+      steps {
+        script {
+           sh '''
+            docker stop ${CONTAINER_NAME} || true
+            docker rm ${CONTAINER_NAME} || true
+            docker build -t ${IMAGE_NAME} .
+            docker run -d --name ${CONTAINER_NAME} --network my-network --env-file .env -p 8081:8080 ${IMAGE_NAME}
+          '''
+        }
       }
     }
   }
