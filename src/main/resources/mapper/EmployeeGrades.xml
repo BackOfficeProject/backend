@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backoffice.backoffice.mapper.EmployeeGradesMapper">
+
+
+    <!--    직급 부여-->
+    <insert id="insertGrade" parameterType="EmployeeGradesRegisterRequest">
+        insert into "Employee_grades" (employee_id, grade_id, granted_start_date, granted_end_date, granted_reason)
+        values (#{employeesId}, #{gradeId}, now()::date, null, #{grantedReason})
+    </insert>
+    <!--    현재 직급 조회-->
+    <select id="currentGrades" parameterType="Integer" resultType="String">
+        select g.name
+        from "Employee_grades" eg
+                 join "Grades" g on eg.grade_id = g.id
+        where eg.employee_id = #{employeesId}
+          and eg.granted_end_date is null;
+    </select>
+
+    <!--    현재 직급의 id 조회-->
+    <select id="findCurrentGradeId" parameterType="Integer" resultType="Integer">
+        select grade_id
+        from "Employee_grades"
+        where employee_id = #{employeesId}
+          and granted_end_date is null;
+    </select>
+
+
+    <!--    직급 이력 조회-->
+    <!--    특정 직원이 지금까지 어떤 직급을 가졌는지 전체 이력을 볼 수 있음-->
+    <resultMap id="EmployeeGradesResultMap" type="EmployeeGradesAllRequest">
+        <result property="id" column="id"/>
+        <result property="employeesId" column="employee_id"/> <!-- employee_id와 employeesId 매핑 -->
+        <result property="gradeId" column="grade_id"/> <!-- grade_id와 gradeId 매핑 -->
+        <result property="grantedStartDate"
+                column="granted_start_date"/> <!-- granted_start_date와 grantedStartDate 매핑 -->
+        <result property="grantedEndDate" column="granted_end_date"/> <!-- granted_end_date와 grantedEndDate 매핑 -->
+        <result property="grantedReason" column="granted_reason"/> <!-- granted_reason과 grantedReason 매핑 -->
+    </resultMap>
+
+    <!-- 직급 이력 조회 -->
+    <select id="employAllGrades" parameterType="Integer" resultMap="EmployeeGradesResultMap">
+        select id, employee_id, grade_id, granted_start_date, granted_end_date, granted_reason
+        from "Employee_grades"
+        where employee_id = #{employeesId}
+        order by granted_start_date desc;
+    </select>
+
+    <!--    직급 종료 처리-->
+    <update id="endCurrentGrade" parameterType="EmployeeGradesEndCurrentRequest">
+        update "Employee_grades"
+        set granted_end_date = now()::date
+        where employee_id = #{employeesId}
+          and granted_end_date is null;
+    </update>
+
+    <select id="findCurrentGradeInfo" parameterType="Integer" resultType="GradesDto">
+        select g.id, g.name
+        from "Employee_grades" eg
+        join "Grades" g on eg.grade_id = g.id
+        where eg.employee_id = #{employeesId}
+        and eg.granted_end_date is null
+    </select>
+</mapper>

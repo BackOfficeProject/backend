@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.backoffice.backoffice.mapper.DepartmentsMapper">
+
+
+<!--    부서 생성-->
+    <insert id="departmentSave" parameterType="DepartmentsRegisterRequest">
+        insert into "Departments" (name)
+        values (#{name})
+    </insert>
+
+<!--    부서 업데이트-->
+    <update id="departmentsUpdate" parameterType="DepartmentsUpdateRequest">
+        update "Departments"
+        set name = #{afterName}
+        where name = #{beforeName}
+    </update>
+
+<!--    부서 삭제-->
+    <delete id="departmentsDelete" parameterType="DepartmentsDeleteRequest">
+        delete
+        from "Departments"
+        where name = #{name}
+    </delete>
+
+<!--    부서 찾기-->
+    <select id="findByDepartments" parameterType="String" resultType="DepartmentsDto">
+        select id, name
+        from "Departments"
+        where name = #{name}
+    </select>
+
+<!--    부서 단일-->
+
+    <select id="findName" parameterType="Integer" resultType="DepartmentsDto">
+        select name
+        from "Departments"
+        where name = #{name}
+    </select>
+
+<!--    부서 id 찾기-->
+    <select id="findId" parameterType="Integer" resultType="DepartmentsDto">
+        select id, name
+        from "Departments"
+        where id = #{id}
+    </select>
+
+<!--    모든 부서 출력-->
+    <select id="findAll" resultType="DepartmentsDto">
+        select *
+        from "Departments"
+    </select>
+
+</mapper>
