@@ -29,10 +29,12 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
-          set -a
-          . .env
-          set +a
-          ./gradlew clean build
+          bash -c "
+            set -a
+            . $WORKSPACE/.env
+            set +a
+            ./gradlew build
+          "
         '''
       }
     }
@@ -41,10 +43,12 @@ pipeline {
       steps {
         script {
            sh '''
-            docker stop ${CONTAINER_NAME} || true
-            docker rm ${CONTAINER_NAME} || true
-            docker build -t ${IMAGE_NAME} .
-            docker run -d --name ${CONTAINER_NAME} --network my-network --env-file .env -p 8081:8080 ${IMAGE_NAME}
+             bash -c "
+                docker stop ${CONTAINER_NAME} || true
+                docker rm ${CONTAINER_NAME} || true
+                docker build -t ${IMAGE_NAME} .
+                docker run -d --name ${CONTAINER_NAME} --network my-network --env-file .env -p 8081:8080 ${IMAGE_NAME}
+              "
           '''
         }
       }
