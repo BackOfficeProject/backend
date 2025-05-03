@@ -1,4 +1,4 @@
-package com.backoffice.backoffice.dto.vacations;
+package com.backoffice.backoffice.dto.vacations.requestDto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -12,17 +12,15 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VacationsDto {
-    private Integer id;
+public class VacationsApplyLeaveRequest {
     private Integer employeeId;
     private String type;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp endDate;
+
     private String reason;
-    private String status;
-    private String approvedBy;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp appliedAt;
 }
