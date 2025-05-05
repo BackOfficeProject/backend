@@ -12,13 +12,15 @@ import com.backoffice.backoffice.util.PhoneNumberService;
 
 public class EmployeesDtoMapper {
 
-    public static EmployeesRegisterResponse toResponseDto(EmployeesRegisterRequest dto, String departmentName, String formattedPhone) {
+    public static EmployeesRegisterResponse toResponseDto(EmployeesRegisterRequest dto, String departmentName, String formattedPhone, String status) {
+
+
         return new EmployeesRegisterResponse(
                 dto.getEmail(),
                 dto.getName(),
                 dto.getPassword(),
                 departmentName,
-                dto.isStatus() ? "재직 중" : "퇴직",
+                status,
                 formattedPhone
         );
     }
