@@ -41,20 +41,26 @@ public class EmployeesService {
 
         // 이메일이 존재하지 않으면 저장
         if (existingMail == null) {
+
             employeesMapper.employeesSave(employeesRegisterRequest);
         } else {
             throw new CommonExceptionHandler(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
 
-        // 2. 응답 DTO 생성
         // 부서 정보 조회
         DepartmentsDto department = departmentsService.findName(employeesRegisterRequest.getDepartmentId());
+
+        EmployeesDto employee = employeesMapper.findEmpl(employeesRegisterRequest.getId());
+
+        String status = employee.isStatus() ? "재직 중" : "퇴직";
+
 
         // 응답 DTO 반환
         return EmployeesDtoMapper.toResponseDto(
                 employeesRegisterRequest,
                 department.getName(),
-                PhoneNumberService.formatPhone(employeesRegisterRequest.getPhone())
+                PhoneNumberService.formatPhone(employeesRegisterRequest.getPhone()),
+                status
         );
     }
 
@@ -98,11 +104,9 @@ public class EmployeesService {
     //사원 삭제
     @Transactional
     public EmployeesDeleteRequest employeesDelete(EmployeesDeleteRequest employeesDeleteRequest) {
-        try {
+
             employeesMapper.employeesDelete(employeesDeleteRequest);
-        } catch (Exception e) {
-            throw new CommonExceptionHandler(ErrorCode.INTERNAL_SERVER_ERROR);
-        }
+
         return employeesDeleteRequest;
     }
 

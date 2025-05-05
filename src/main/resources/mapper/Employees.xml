@@ -3,9 +3,9 @@
 <mapper namespace="com.backoffice.backoffice.mapper.EmployeesMapper">
 
     <!--    사원 회원가입-->
-    <insert id="employeesSave" parameterType="EmployeesRegisterRequest">
+    <insert id="employeesSave" parameterType="EmployeesRegisterRequest" useGeneratedKeys="true" keyProperty="id">
         insert into "Employees" (email, name, password, department_id, status, phone, hire_date)
-        values (#{email}, #{name}, #{password}, #{departmentId}, #{status}, #{phone}, now()::date)
+        values (#{email}, #{name}, #{password}, #{departmentId}, true, #{phone}, now()::date)
     </insert>
 
     <!--    이메일 찾기-->
@@ -15,9 +15,16 @@
         where email = #{email}
     </select>
 
-<!--    이메일, 패스워드찾기-->
-    <select id="findByEmailAndPassword" parameterType="employeesDto">
-        select id ,email, password, name, department_id, status, phone, hire_date
+    <!--    이메일, 패스워드찾기-->
+    <select id="findByEmailAndPassword" parameterType="EmployeesDto">
+        select id,
+               email,
+               password,
+               name,
+               department_id,
+               status,
+               phone,
+               hire_date
         from "Employees"
         where email = #{email}
     </select>
@@ -39,11 +46,39 @@
         where id = #{id}
     </delete>
 
+    <!--    status 변경-->
+    <update id="statusChange" parameterType="Integer">
+        update "Employees"
+        set status = false
+        where id = #{id}
+    </update>
+
+
     <!--    사원 찾기-->
-    <select id="findEmployees" parameterType="Integer" resultType="employeesDto">
-        select id, email, name, password, department_id, status, phone, to_char(hire_date, 'YYYY-MM-DD') as hire_date
+    <select id="findEmployees" parameterType="Integer" resultType="EmployeesDto">
+        select id,
+               email,
+               name,
+               password,
+               department_id,
+               status,
+               phone,
+               to_char(hire_date, 'YYYY-MM-DD') as hire_date
         from "Employees"
         where id = #{id}
+    </select>
+
+    <select id="findEmpl" parameterType="Integer" resultType="EmployeesDto">
+        select id,
+               email,
+               name,
+               password,
+               department_id,
+               status,
+               phone,
+               to_char(hire_date, 'YYYY-MM-DD') as hire_date
+        from "Employees"
+        where id = #{id} limit 1
     </select>
 
 

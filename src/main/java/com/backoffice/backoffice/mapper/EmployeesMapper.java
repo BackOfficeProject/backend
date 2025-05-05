@@ -24,4 +24,8 @@ public interface EmployeesMapper {
     List<EmployeesDto> findAllEmployees();
 
     EmployeesDto findByEmailAndPassword(String email);
+
+    void statusChange(Integer id);
+
+    EmployeesDto findEmpl(Integer id);
 }
