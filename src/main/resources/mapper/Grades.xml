@@ -4,8 +4,8 @@
 
     <!--    직급 생성-->
     <insert id="gradesSave" parameterType="GradesRegisterRequest">
-        insert into "Grades" (name)
-        values (#{name})
+        insert into "Grades" (name, base_pay)
+        values (#{name}, #{basePay})
     </insert>
     <!--  특정 직급 하나 조회  -->
     <select id="findGrades" parameterType="String" resultType="GradesDto">
