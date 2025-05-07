@@ -2,4 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.backoffice.backoffice.mapper.PaysMapper">
 
+    <insert id="salary" parameterType="PaySalaryRequest">
+        insert into "Pays" (employee_id, bonus, deductions, final_pay, pay_date)
+        values (#{employeeId}, #{bonus}, #{deductions}, #{finalPay}, now()::date)
+    </insert>
+
+    <!--    어느달에 급여를 얼마받았는지-->
+    <select id="findSalaryByMonth" parameterType="map" resultType="findSalaryRequest">
+        select *
+        from "Pays"
+        where employee_id = #{employeeId}
+          and extract(month from "pay_date") = #{month}
+    </select>
+    <!--  내가 받은 모든 급여 리스트  -->
+    <select id="findSalaryAll" parameterType="map" resultType="findSalaryRequest">
+        select *
+        from "Pays"
+        where employee_id = #{employeeId}
+    </select>
+
+    <!--    사원이름 가져오기-->
+    <select id="getName" resultType="String">
+        select e.name
+        from "Pays" p
+                 Join "Employees" e
+                      on p.employee_id = e.id
+        where employee_id = #{employeeId}
+    </select>
 </mapper>

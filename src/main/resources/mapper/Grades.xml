@@ -13,6 +13,17 @@
         from "Grades"
         where name = #{name}
     </select>
+
+<!--    직급에 맞는 기본급 가져오기-->
+    <select id="findSalary" parameterType="Integer" resultType="GradesDto">
+        select g.id, g.name, g.base_pay
+        from "Grades" g
+        join "Employee_grades" eg on g.id = eg.grade_id
+        where eg.employee_id = #{employeeId}
+        order by eg.granted_start_date desc
+        limit 1
+    </select>
+
     <!--    직급 목록 조회-->
     <select id="findAllGrades" resultType="GradesDto">
         select *

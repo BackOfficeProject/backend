@@ -28,5 +28,7 @@ public interface GradesMapper {
 
     GradesDto findId(Integer id);
 
+    GradesDto findSalary(Integer employeeId);
+
 
 }
