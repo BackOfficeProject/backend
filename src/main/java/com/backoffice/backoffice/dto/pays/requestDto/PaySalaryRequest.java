@@ -1,5 +1,6 @@
-package com.backoffice.backoffice.dto.pays;
+package com.backoffice.backoffice.dto.pays.requestDto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,11 +13,13 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaysDto {
+public class PaySalaryRequest {
     private Integer id;
-    private Integer employeesId;
+    private Integer employeeId;
     private BigDecimal bonus; //보너스
     private BigDecimal deductions; //공제
     private BigDecimal finalPay;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp payDate;
 }

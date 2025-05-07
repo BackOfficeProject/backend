@@ -4,6 +4,7 @@ import com.backoffice.backoffice.dto.ApiResponse;
 import com.backoffice.backoffice.dto.resigns.requestDto.ResignsQuitRequest;
 import com.backoffice.backoffice.dto.resigns.responseDto.ResignsQuitResponse;
 import com.backoffice.backoffice.service.ResignsService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class ResignsController {
 
     private final ResignsService resignsService;
 
+    @Operation(summary = "퇴사", description = "퇴사를 합니다.")
     @PostMapping
     public ResponseEntity<ApiResponse<ResignsQuitResponse>> quit(@RequestBody ResignsQuitRequest resignsQuitRequest) {
         ResignsQuitResponse responseDto = resignsService.quit(resignsQuitRequest);
