@@ -3,12 +3,14 @@ package com.backoffice.backoffice.service;
 import com.backoffice.backoffice.dto.employees.EmployeesDto;
 import com.backoffice.backoffice.dto.grades.GradesDto;
 import com.backoffice.backoffice.dto.pays.requestDto.PaySalaryRequest;
+import com.backoffice.backoffice.dto.pays.requestDto.SalaryDetailRequest;
 import com.backoffice.backoffice.dto.pays.requestDto.findSalaryRequest;
 import com.backoffice.backoffice.dto.pays.responseDto.PaySalaryResponse;
 import com.backoffice.backoffice.dto.pays.responseDto.findSalaryResponse;
 import com.backoffice.backoffice.mapper.EmployeesMapper;
 import com.backoffice.backoffice.mapper.GradesMapper;
 import com.backoffice.backoffice.mapper.PaysMapper;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,10 +20,7 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +30,8 @@ public class PaysService {
     private final PaysMapper paysMapper;
     private final GradesMapper gradesMapper;
     private final EmployeesMapper employeesMapper;
+    private final EmailService emailService;
+    private final PdfGenerationService pdfGenerationService;
 
     //급여 정산
     public void salary() {
@@ -75,6 +76,27 @@ public class PaysService {
 
                 // 급여 데이터 DB에 저장
                 paysMapper.salary(paySalaryRequest);
+
+                // 이메일 주소 가져오기
+                String mail = paysMapper.getMail(employee.getId());
+
+                List<SalaryDetailRequest> salaryDetails = new ArrayList<>();
+                salaryDetails.add(new SalaryDetailRequest(bonus, deductions, finalPay, Timestamp.valueOf(payDate)));
+
+                // 급여 명세서를 PDF로 생성
+                byte[] pdfData = pdfGenerationService.generateSalarySlipPdf(employee.getName(), salaryDetails);
+
+                // 메일 발송
+                try {
+                    if (mail != null && !mail.isEmpty()) {
+                        emailService.sendSalaryTransferEmailWithPdf(mail, pdfData);
+                    } else {
+                        System.err.println("메일 주소가 없습니다. 직원 ID: " + employee.getId());
+                    }
+                } catch (MessagingException e) {
+                    System.err.println("메일 발송 중 오류 발생: " + e.getMessage());
+                    e.printStackTrace();  // 메일 발송 오류를 로깅
+                }
 
                 // 급여 계산 결과 반환 (선택 사항)
                 PaySalaryResponse response = new PaySalaryResponse(employee.getId(), bonus, deductions, finalPay, Timestamp.valueOf(payDate));
@@ -146,6 +168,8 @@ public class PaysService {
 
         return responseList;
     }
+
+
 
 
 }

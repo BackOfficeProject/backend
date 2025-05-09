@@ -7,6 +7,7 @@ import com.backoffice.backoffice.dto.employees.responseDto.EmployeesRegisterResp
 import com.backoffice.backoffice.dto.employees.responseDto.EmployeesUpdateResponse;
 import com.backoffice.backoffice.service.EmployeesService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class EmployeesController {
     //사원 회원가입
     @Operation(summary = "직원계정 생성", description = "직원 계정을 생성합니다.")
     @PostMapping
-    public ResponseEntity<ApiResponse<EmployeesRegisterResponse>> employeesSave(@RequestBody EmployeesRegisterRequest employeesRegisterRequest) {
+    public ResponseEntity<ApiResponse<EmployeesRegisterResponse>> employeesSave(@RequestBody EmployeesRegisterRequest employeesRegisterRequest) throws MessagingException {
         // 직원 저장 및 응답 DTO 생성
         EmployeesRegisterResponse responseDto = employeesService.employeesSave(employeesRegisterRequest);
 
@@ -32,6 +33,7 @@ public class EmployeesController {
         return ResponseEntity.ok(ApiResponse.success(responseDto));
     }
 
+    @Operation(summary = "로그인", description = "로그인을 시도합니다.")
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<EmployeesLoginResponse>> login(@RequestBody EmployeesLoginRequest employeesLoginRequest, HttpSession session) {
         EmployeesLoginResponse responseDto = employeesService.login(employeesLoginRequest, session);

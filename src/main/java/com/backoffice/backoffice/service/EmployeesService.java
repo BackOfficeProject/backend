@@ -11,6 +11,7 @@ import com.backoffice.backoffice.exception.ErrorCode;
 import com.backoffice.backoffice.mapper.dtoMapper.EmployeesDtoMapper;
 import com.backoffice.backoffice.mapper.EmployeesMapper;
 import com.backoffice.backoffice.util.PhoneNumberService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,11 +28,12 @@ public class EmployeesService {
     private final EmployeesMapper employeesMapper;
     private final DepartmentsService departmentsService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
 
     //사원 가입
     @Transactional
-    public EmployeesRegisterResponse employeesSave(EmployeesRegisterRequest employeesRegisterRequest) {
+    public EmployeesRegisterResponse employeesSave(EmployeesRegisterRequest employeesRegisterRequest) throws MessagingException {
         // 1. 이메일 중복 확인
         String existingMail = employeesMapper.findByEmail(employeesRegisterRequest.getEmail());
 
@@ -54,6 +56,7 @@ public class EmployeesService {
 
         String status = employee.isStatus() ? "재직 중" : "퇴직";
 
+        emailService.sendEmailAndSaveAuthCode(employeesRegisterRequest.getEmail());
 
         // 응답 DTO 반환
         return EmployeesDtoMapper.toResponseDto(
@@ -61,7 +64,9 @@ public class EmployeesService {
                 department.getName(),
                 PhoneNumberService.formatPhone(employeesRegisterRequest.getPhone()),
                 status
+
         );
+
     }
 
     //로그인

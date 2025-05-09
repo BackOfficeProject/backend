@@ -21,6 +21,12 @@
         where employee_id = #{employeeId}
     </select>
 
+    <select id="findSalaryDetails" resultType="SalaryDetailRequest">
+        select bonus, deductions, final_pay, pay_date
+        from "Pays"
+        where employee_id = #{employeeId}
+    </select>
+
     <!--    사원이름 가져오기-->
     <select id="getName" resultType="String">
         select e.name
@@ -29,4 +35,16 @@
                       on p.employee_id = e.id
         where employee_id = #{employeeId}
     </select>
+
+<!--    사원의 메일 가져오기-->
+    <select id="getMail" resultType="String">
+        select e.email
+        from "Pays" p
+        join "Employees" e
+        on p.employee_id = e.id
+        where employee_id = #{employeeId}
+    </select>
+
+
+
 </mapper>
