@@ -42,6 +42,13 @@ dependencies {
 	//smtp
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	//minio
+	implementation 'io.minio:minio:8.5.10'
+
+	//
+	implementation 'com.itextpdf:itext7-core:7.2.2'
+
+
 
 }
 
