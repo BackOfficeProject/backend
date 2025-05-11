@@ -1,6 +1,7 @@
 package com.backoffice.backoffice.dto.employees;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +24,7 @@ public class EmployeesDto {
     private String phone;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp hireDate;
+
+    @Schema(hidden = true)
+    private String departmentName;
 }
