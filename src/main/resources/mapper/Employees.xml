@@ -87,4 +87,18 @@
         select *
         from "Employees"
     </select>
+
+    <select id="findDepartmentName" resultType="String">
+        select d.name
+        from "Employees" e
+                 join "Departments" d on e.department_id = d.id
+    </select>
+
+
+    <select id="findHireANdDepartmentName" resultType="EmployeesDto">
+        select e.hire_date, d.name as departmentName
+        from "Employees" e
+                 join "Departments" d on e.department_id = d.id
+        where e.id = #{id}
+    </select>
 </mapper>

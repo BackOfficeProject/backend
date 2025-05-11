@@ -5,6 +5,7 @@ import com.backoffice.backoffice.dto.pays.requestDto.SalaryDetailRequest;
 import com.backoffice.backoffice.dto.pays.requestDto.findSalaryRequest;
 import com.backoffice.backoffice.dto.pays.responseDto.findSalaryResponse;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,9 @@ public interface PaysMapper {
 
     String getName(Integer employeeId);
 
-    String getMail(Integer employeeId);
+    List<String> getMail(Integer employeeId);
 
     List<SalaryDetailRequest> findSalaryDetails(Integer employeeId);
+
+//    SalaryDetailRequest findPayInfo(Integer employeeId);
 }

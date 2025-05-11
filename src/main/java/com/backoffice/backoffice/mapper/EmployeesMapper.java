@@ -5,6 +5,7 @@ import com.backoffice.backoffice.dto.employees.EmployeesDto;
 import com.backoffice.backoffice.dto.employees.requestDto.EmployeesRegisterRequest;
 import com.backoffice.backoffice.dto.employees.requestDto.EmployeesUpdateRequest;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,4 +29,8 @@ public interface EmployeesMapper {
     void statusChange(Integer id);
 
     EmployeesDto findEmpl(Integer id);
+
+    String findDepartmentName(Integer id);
+
+    EmployeesDto findHireANdDepartmentName(@Param("id") Integer id);
 }

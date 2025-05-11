@@ -36,15 +36,33 @@
         where employee_id = #{employeeId}
     </select>
 
-<!--    사원의 메일 가져오기-->
-    <select id="getMail" resultType="String">
+    <!--    사원의 메일 가져오기-->
+    <select id="getMail"  resultType="String">
         select e.email
         from "Pays" p
-        join "Employees" e
-        on p.employee_id = e.id
-        where employee_id = #{employeeId}
+                 join "Employees" e
+                      on p.employee_id = e.id
+        where p.employee_id = #{employeeId}
     </select>
 
+
+    <!--    페이 pdf info 정보-->
+    <select id="findPayInfo" resultType="SalaryDetailRequest">
+        select p.employee_id,
+               p.bonus,
+               p.deductions,
+               p.final_pay,
+               p.pay_date,
+               g.name,
+               g.base_pay,
+               d.name
+        from "Pays" p
+                 join "Employee_grades" eg on p.employee_id = eg.employee_id
+                 join "Grades" g on eg.grade_id = g.id
+                 join "Employees" e on p.employee_id = e.id
+                 join "Departments" d on e.department_id = d.id
+        WHERE p.employee_id = #{employeeId}
+    </select>
 
 
 </mapper>

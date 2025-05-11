@@ -24,8 +24,17 @@ public class SalaryDetailRequest {
     private BigDecimal deductions; //공제
 
     @JsonSerialize(using = NumberFormatSerializer.class)
-    private BigDecimal finalPay;
+    private BigDecimal finalPay;//실지급액
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp payDate;
+
+    private String gradeName;
+    private String departmentName;
+
+    @JsonSerialize(using = NumberFormatSerializer.class)
+    private BigDecimal basePay;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Timestamp hireDate;
 }

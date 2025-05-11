@@ -44,12 +44,21 @@ public class PaysService {
                 // 직급에 맞는 기본급 가져오기
                 GradesDto grade = gradesMapper.findSalary(employee.getId());
 
+                EmployeesDto employeesDto = employeesMapper.findHireANdDepartmentName(employee.getId());
+
                 if (grade == null) {
                     throw new IllegalStateException("직급 정보가 없습니다. 직원 ID: " + employee.getId());
                 }
 
+
+                String departmentName = employeesDto.getDepartmentName();
+                String gradeName = grade.getName();
+
                 // 기본급을 가져온 후 보너스, 공제 등을 반영하여 최종 급여 계산
                 BigDecimal basePay = grade.getBasePay();
+
+
+                Timestamp hireDate = Timestamp.valueOf(employeesDto.getHireDate().toLocalDateTime());
 
                 int currentMonth = java.time.LocalDate.now().getMonthValue();
                 BigDecimal bonus = BigDecimal.ZERO;
@@ -74,14 +83,22 @@ public class PaysService {
                 paySalaryRequest.setFinalPay(finalPay);
                 paySalaryRequest.setPayDate(Timestamp.valueOf(payDate));
 
+
+
                 // 급여 데이터 DB에 저장
                 paysMapper.salary(paySalaryRequest);
 
                 // 이메일 주소 가져오기
-                String mail = paysMapper.getMail(employee.getId());
+//                String mail = paysMapper.getMail(employee.getId());
 
+                List<String> mailList = paysMapper.getMail(employee.getId());
+                String mail = null;
+                if (!mailList.isEmpty()) {
+                     mail = mailList.get(0);
+                }
                 List<SalaryDetailRequest> salaryDetails = new ArrayList<>();
-                salaryDetails.add(new SalaryDetailRequest(bonus, deductions, finalPay, Timestamp.valueOf(payDate)));
+                salaryDetails.add(new SalaryDetailRequest(bonus, deductions, finalPay, Timestamp.valueOf(payDate),gradeName, departmentName, basePay,hireDate));
+
 
                 // 급여 명세서를 PDF로 생성
                 byte[] pdfData = pdfGenerationService.generateSalarySlipPdf(employee.getName(), salaryDetails);
